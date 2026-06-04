@@ -530,6 +530,12 @@ _PLATFORM_CONFIG: dict[str, dict] = {
         "skill_dst": Path(".config") / "devin" / "skills" / "graphify" / "SKILL.md",
         "claude_md": False,
     },
+    "codebuddy": {
+        "skill_file": "skill-codebuddy.md",
+        "skill_dst": Path(".codebuddy") / "skills" / "graphify" / "SKILL.md",
+        "claude_md": False,
+        "skill_refs": "codebuddy",
+    },
 }
 
 
@@ -1555,7 +1561,7 @@ def _project_install(platform_name: str, project_dir: Path | None = None) -> Non
     elif platform_name == "kiro":
         _kiro_install(project_dir)
         _print_project_git_add_hint([project_dir / ".kiro"])
-    elif platform_name in ("aider", "amp", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes"):
+    elif platform_name in ("aider", "amp", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes", "codebuddy"):
         skill_dst = _copy_skill_file(platform_name, project=True, project_dir=project_dir)
         _agents_install(project_dir, platform_name)
         hint_paths = [_project_scope_root(skill_dst, project_dir), project_dir / "AGENTS.md"]
@@ -1563,6 +1569,8 @@ def _project_install(platform_name: str, project_dir: Path | None = None) -> Non
             hint_paths.append(project_dir / ".opencode")
         elif platform_name == "codex":
             hint_paths.append(project_dir / ".codex")
+        elif platform_name == "codebuddy":
+            hint_paths.append(project_dir / ".codebuddy")
         _print_project_git_add_hint(hint_paths)
     elif platform_name == "devin":
         skill_dst = _copy_skill_file("devin", project=True, project_dir=project_dir)
@@ -1595,7 +1603,7 @@ def _project_uninstall(platform_name: str, project_dir: Path | None = None) -> N
         _cursor_uninstall(project_dir)
     elif platform_name == "kiro":
         _kiro_uninstall(project_dir)
-    elif platform_name in ("aider", "amp", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes"):
+    elif platform_name in ("aider", "amp", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes", "codebuddy"):
         _remove_skill_file(platform_name, project=True, project_dir=project_dir)
         _agents_uninstall(project_dir, platform=platform_name)
         if platform_name == "codex":
@@ -1790,7 +1798,7 @@ def uninstall_all(project_dir: Path | None = None, purge: bool = False) -> None:
     _cursor_uninstall(pd)
     _kiro_uninstall(pd)
     _antigravity_uninstall(pd)
-    # AGENTS.md covers: codex, aider, opencode, claw, droid, trae, trae-cn, hermes, copilot
+    # AGENTS.md covers: codex, aider, opencode, claw, droid, trae, trae-cn, hermes, copilot, codebuddy
     _agents_uninstall(pd)
     # Amp also drops a user-scope skill at ~/.config/agents/skills, which the
     # AGENTS.md cleanup above does not touch.
@@ -1942,7 +1950,7 @@ def main() -> None:
         print("Usage: graphify <command>")
         print()
         print("Commands:")
-        print("  install [--platform P]  copy skill to platform config dir (claude|windows|codex|opencode|aider|amp|claw|droid|trae|trae-cn|gemini|cursor|antigravity|hermes|kiro|pi|devin)")
+        print("  install [--platform P]  copy skill to platform config dir (claude|windows|codex|opencode|aider|amp|claw|droid|trae|trae-cn|gemini|cursor|antigravity|hermes|kiro|pi|devin|codebuddy)")
         print("  uninstall               remove graphify from all detected platforms in one shot")
         print("    --purge                 also delete graphify-out/ directory")
         print("  path \"A\" \"B\"            shortest path between two nodes in graph.json")
@@ -2310,7 +2318,7 @@ def main() -> None:
         else:
             print("Usage: graphify amp [install|uninstall]", file=sys.stderr)
             sys.exit(1)
-    elif cmd in ("aider", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes"):
+    elif cmd in ("aider", "codex", "opencode", "claw", "droid", "trae", "trae-cn", "hermes", "codebuddy"):
         subcmd = sys.argv[2] if len(sys.argv) > 2 else ""
         if subcmd == "install":
             if "--project" in sys.argv[3:]:

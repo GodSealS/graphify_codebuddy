@@ -343,10 +343,11 @@ _EXPECTED_SKILL_BODIES = (
     "skill-vscode.md",
     "skill-pi.md",
     "skill-devin.md",
+    "skill-codebuddy.md",
 )
 _SPLIT_HOSTS = (
     "claude", "codex", "windows", "opencode", "kilo", "copilot",
-    "claw", "droid", "amp", "trae", "kiro", "pi", "vscode",
+    "claw", "droid", "amp", "trae", "kiro", "pi", "vscode", "codebuddy",
 )
 _REFERENCE_NAMES = (
     "add-watch.md", "exports.md", "extraction-spec.md", "github-and-merge.md",
