@@ -2489,7 +2489,7 @@ def main() -> None:
             sys.exit(1)
     elif cmd == "query":
         if len(sys.argv) < 3:
-            print("Usage: graphify query \"<question>\" [--dfs] [--context C] [--budget N] [--graph path]", file=sys.stderr)
+            print("Usage: graphify query \"<question>\" [--dfs] [--context C] [--budget N] [--graph path] [--path dir]", file=sys.stderr)
             sys.exit(1)
         from graphify.serve import _query_graph_text
         from graphify.security import sanitize_label
@@ -2526,6 +2526,10 @@ def main() -> None:
                 i += 1
             elif args[i] == "--graph" and i + 1 < len(args):
                 graph_path = args[i + 1]
+                i += 2
+            elif args[i] == "--path" and i + 1 < len(args):
+                # --path <dir> resolves to <dir>/graphify-out/graph.json
+                graph_path = str(Path(args[i + 1]) / "graphify-out" / "graph.json")
                 i += 2
             else:
                 i += 1
@@ -4381,8 +4385,10 @@ def main() -> None:
         # User ran `graphify <path>` directly — treat as `graphify extract <path>`.
         # Common when following the PowerShell note in README (`graphify .`) or
         # copy-pasting skill invocations without the leading slash.
-        sys.argv.insert(2, sys.argv[1])
-        sys.argv[1] = "extract"
+        # Insert --out . so the graphify-out/ directory lands in CWD, not inside
+        # the target path (issue: graph was incorrectly written to <path>/graphify-out/
+        # instead of CWD/graphify-out/ when target != CWD).
+        sys.argv[1:1] = ["extract", cmd, "--out", "."]
         main()
     else:
         print(f"error: unknown command '{cmd}'", file=sys.stderr)

@@ -19,6 +19,7 @@ def __getattr__(name):
         "to_svg": ("graphify.export", "to_svg"),
         "to_canvas": ("graphify.export", "to_canvas"),
         "to_wiki": ("graphify.wiki", "to_wiki"),
+        "configure": ("graphify.llm", "configure"),
     }
     if name in _map:
         import importlib

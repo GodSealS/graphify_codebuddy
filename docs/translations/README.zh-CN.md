@@ -52,6 +52,7 @@ pip install graphifyy && graphify install
 | Factory Droid | `graphify install --platform droid` |
 | Trae | `graphify install --platform trae` |
 | Trae CN | `graphify install --platform trae-cn` |
+| CodeBuddy | `graphify install --platform codebuddy` |
 
 Codex 用户还需要在 `~/.codex/config.toml` 的 `[features]` 下打开 `multi_agent = true`，这样才能并行提取。OpenClaw 目前的并行 agent 支持还比较早期，所以使用顺序提取。Trae 使用 Agent 工具进行并行子代理调度，**不支持** PreToolUse hook，因此 AGENTS.md 是其常驻机制。
 
@@ -118,6 +119,7 @@ When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` 
 /graphify ./raw                    # 对指定目录运行
 /graphify ./raw --mode deep        # 更激进地抽取 INFERRED 边
 /graphify ./raw --update           # 只重新提取变更文件，并合并到已有图谱
+/graphify ./raw --out .              # 指定输出根目录，输出到 <out>/graphify-out/（默认输出到目标目录下）
 /graphify ./raw --cluster-only     # 只重新聚类已有图谱，不重新提取
 /graphify ./raw --no-viz           # 跳过 HTML，只生成 report + JSON
 /graphify ./raw --obsidian         # 额外生成 Obsidian vault（可选）
@@ -130,6 +132,8 @@ When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` 
 /graphify query "what connects attention to the optimizer?"
 /graphify query "what connects attention to the optimizer?" --dfs   # 追踪一条具体路径
 /graphify query "what connects attention to the optimizer?" --budget 1500  # 把预算限制在 N tokens
+/graphify query "..." --path ./my-project    # 查询另一个项目的知识库（自动查找其 graphify-out/graph.json）
+/graphify query "..." --graph path/to/graph.json  # 直接指定 graph.json 文件路径
 /graphify path "DigestAuth" "Response"
 /graphify explain "SwinTransformer"
 

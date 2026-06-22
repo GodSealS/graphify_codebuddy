@@ -261,6 +261,7 @@ You can also set `GRAPHIFY_GOOGLE_WORKSPACE=1`. Graphify exports shortcuts into
 
 ```bash
 /graphify .                        # build graph for current folder
+/graphify ./docs --out .           # output to CWD/graphify-out/ instead of ./docs/graphify-out/
 /graphify ./docs --update          # re-extract only changed files
 /graphify . --cluster-only         # rerun clustering without re-extracting
 /graphify . --cluster-only --resolution 1.5      # more granular communities
@@ -270,6 +271,8 @@ You can also set `GRAPHIFY_GOOGLE_WORKSPACE=1`. Graphify exports shortcuts into
 graphify export callflow-html      # Mermaid architecture/call-flow HTML (auto-regenerates on every git commit if hook is installed)
 
 /graphify query "what connects auth to the database?"
+/graphify query "what connects auth to the database?" --path ./other-project  # query another project's knowledge base
+/graphify query "..." --graph path/to/graph.json  # specify graph.json file directly
 /graphify path "UserService" "DatabasePool"
 /graphify explain "RateLimiter"
 
@@ -449,6 +452,7 @@ graphify install  # overwrites the skill file
 ```
 /graphify                          # run on current directory
 /graphify ./raw                    # run on a specific folder
+/graphify ./raw --out .            # output to <out>/graphify-out/ (default: <target>/graphify-out/)
 /graphify ./raw --mode deep        # more aggressive relationship extraction
 /graphify ./raw --update           # re-extract only changed files
 /graphify ./raw --directed         # preserve edge direction
@@ -469,6 +473,8 @@ graphify install  # overwrites the skill file
 
 /graphify query "what connects attention to the optimizer?"
 /graphify query "..." --dfs --budget 1500
+/graphify query "..." --path ./my-project   # query another project's knowledge base
+/graphify query "..." --graph path/to/graph.json  # specify graph.json file directly
 /graphify path "DigestAuth" "Response"
 /graphify explain "SwinTransformer"
 

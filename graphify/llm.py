@@ -371,6 +371,10 @@ def _backend_env_keys(backend: str) -> list[str]:
 
 def _get_backend_api_key(backend: str) -> str:
     """Return the first configured API key for backend, or an empty string."""
+    # Check runtime-registered inline keys first (configure() with api_key=)
+    if backend in _INLINE_API_KEYS:
+        return _INLINE_API_KEYS[backend]
+    # Fall back to environment variables
     for env_key in _backend_env_keys(backend):
         value = os.environ.get(env_key)
         if value:
@@ -746,12 +750,20 @@ def extract_files_direct(
     if backend not in BACKENDS:
         raise ValueError(f"Unknown backend {backend!r}. Available: {sorted(BACKENDS)}")
 
+    # ── Callable backend (in-process, no HTTP) ──────────────────────────────
+    if backend in _CALLABLE_BACKENDS:
+        user_msg = _read_files(files, root)
+        fn = _CALLABLE_BACKENDS[backend]
+        # Build the same extraction prompt that HTTP backends use
+        system = _extraction_system(deep=deep_mode)
+        full_prompt = f"{system}\n\n{user_msg}"
+        raw = fn(full_prompt)
+        return _parse_llm_json(raw)
+
+    # ── Standard HTTP backends ──────────────────────────────────────────────
     cfg = BACKENDS[backend]
     key = api_key or _get_backend_api_key(backend)
     if not key and backend == "ollama":
-        # Ollama ignores auth but the OpenAI client library requires a non-empty
-        # string. Use a placeholder and surface a visible warning so this never
-        # silently routes traffic without the user realising — see F-029.
         ollama_url = os.environ.get("OLLAMA_BASE_URL", cfg.get("base_url", ""))
         _validate_ollama_base_url(ollama_url)
         print(
@@ -1165,6 +1177,12 @@ def _call_llm(prompt: str, *, backend: str, max_tokens: int = 200) -> str:
     """
     if backend not in BACKENDS:
         raise ValueError(f"Unknown backend {backend!r}")
+
+    # Callable backend (in-process, no HTTP)
+    if backend in _CALLABLE_BACKENDS:
+        fn = _CALLABLE_BACKENDS[backend]
+        return fn(prompt)
+
     cfg = BACKENDS[backend]
     key = _get_backend_api_key(backend)
     if not key and backend == "ollama":
@@ -1344,6 +1362,10 @@ def detect_backend() -> str | None:
     key now keeps you on the paid backend; remove the paid key (or pass
     --backend ollama explicitly) to route to the local model.
     """
+    # Callable backends registered via configure() take highest priority
+    if _CALLABLE_BACKENDS:
+        # Return the first registered callable backend
+        return next(iter(_CALLABLE_BACKENDS))
     for backend in ("gemini", "kimi", "claude", "openai", "deepseek"):
         if _get_backend_api_key(backend):
             return backend
@@ -1497,3 +1519,85 @@ def generate_community_labels(
                 file=sys.stderr,
             )
         return _placeholder_community_labels(communities), "placeholder"
+
+
+# ── Programmatic configuration API ─────────────────────────────────────────────
+# These functions let external callers (e.g. an IDE orchestrator) inject custom
+# backends or override settings without environment variables or JSON files.
+# Usage:
+#
+#   import graphify.llm as llm
+#
+#   # Option A: register an OpenAI-compatible backend on the fly
+#   llm.configure(backend="my-ide", base_url="http://localhost:8000/v1",
+#                 api_key="dummy", model="local-model")
+#
+#   # Option B: register a callable-backed backend (no HTTP, in-process LLM call)
+#   def my_llm(prompt: str) -> str:
+#       return "{...some JSON...}"
+#   llm.configure(backend="inline", callable=my_llm, model="my-model")
+#
+# After configure(), use the backend name normally:
+#   extract_files_direct(files, backend="inline")
+
+
+_CALLABLE_BACKENDS: dict[str, Callable[[str], str]] = {}
+"""Runtime-registered callable backends (injected by configure())."""
+
+_INLINE_API_KEYS: dict[str, str] = {}
+"""API keys for backends registered via configure() with base_url + api_key."""
+
+
+def configure(
+    *,
+    backend: str,
+    callable: Callable[[str], str] | None = None,
+    base_url: str | None = None,
+    api_key: str | None = None,
+    model: str | None = None,
+    temperature: float | None = 0,
+    max_tokens: int = 16384,
+) -> None:
+    """Register or override a backend at runtime (no env var / JSON file needed).
+
+    Two modes:
+
+    1. **Callable mode** (use case: IDE injects its own LLM):
+       Pass ``callable=`` — a function ``str -> str`` that takes a prompt and
+       returns the model's text response. The backend name can be anything;
+       ``extract_files_direct(backend="…")`` will invoke it directly.
+
+    2. **OpenAI-compatible endpoint mode** (use case: custom HTTP endpoint):
+       Pass ``base_url=``, optionally ``api_key=`` and ``model=``. The backend
+       will route through ``_call_openai_compat`` just like built-in backends.
+
+    Once registered, the backend is available immediately to ``extract_files_direct``
+    and ``_call_llm``. It persists for the lifetime of the Python process.
+    """
+    if callable is not None:
+        _CALLABLE_BACKENDS[backend] = callable
+        BACKENDS[backend] = {
+            "default_model": model or "inline-model",
+            "pricing": {"input": 0.0, "output": 0.0},
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        return
+
+    if base_url is not None:
+        if not base_url.startswith(("http://", "https://")):
+            raise ValueError(f"base_url must start with http:// or https://, got {base_url!r}")
+        cfg: dict = {
+            "base_url": base_url,
+            "default_model": model or "default",
+            "pricing": {"input": 0.0, "output": 0.0},
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        if api_key:
+            _INLINE_API_KEYS[backend] = api_key
+        BACKENDS[backend] = cfg
+        return
+
+    raise ValueError("Either callable= or base_url= must be provided.")
+
