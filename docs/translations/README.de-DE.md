@@ -89,6 +89,8 @@ pip install graphifyy && graphify install
 | Kiro IDE/CLI | `graphify kiro install` |
 | Cursor | `graphify cursor install` |
 | Google Antigravity | `graphify antigravity install` |
+| CodeBuddy | `graphify install --platform codebuddy` |
+| CodeSquad | `graphify install --platform codesquad` |
 
 Dann öffne deinen KI-Coding-Assistenten und tippe:
 
@@ -119,6 +121,8 @@ Nach dem Erstellen eines Graphen, führe dies einmal in deinem Projekt aus:
 | Hermes | `graphify hermes install` |
 | Kiro IDE/CLI | `graphify kiro install` |
 | Google Antigravity | `graphify antigravity install` |
+| CodeBuddy | `graphify codebuddy install` |
+| CodeSquad | `graphify codesquad install` |
 
 ## Verwendung
 

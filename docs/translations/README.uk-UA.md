@@ -133,6 +133,8 @@ graphify install --project --platform codex
 | Pi coding agent | `graphify install --platform pi` |
 | Cursor | `graphify cursor install` |
 | Google Antigravity | `graphify antigravity install` |
+| CodeBuddy | `graphify install --platform codebuddy` |
+| CodeSquad | `graphify install --platform codesquad` |
 
 > Користувачам Codex: також додайте `multi_agent = true` під `[features]` у `~/.codex/config.toml`.
 > Codex використовує `$graphify` замість `/graphify`.
@@ -183,6 +185,8 @@ graphify install --project --platform codex
 | Kiro IDE/CLI | `graphify kiro install` |
 | Pi coding agent | `graphify pi install` |
 | Google Antigravity | `graphify antigravity install` |
+| CodeBuddy | `graphify codebuddy install` |
+| CodeSquad | `graphify codesquad install` |
 
 Це записує невеликий конфігураційний файл, який каже асистенту звертатися до графу знань для питань про кодову базу — надаючи перевагу локалізованим запитам на кшталт `graphify query "<питання>"` замість читання повного звіту або пошуку по сирих файлах. На платформах, що підтримують хуки з корисним навантаженням (Claude Code, Gemini CLI), хук спрацьовує автоматично перед пошуковими викликами інструментів і спрямовує асистента до графу. На інших (Codex, OpenCode, Cursor тощо) постійні файли інструкцій (`AGENTS.md`, `.cursor/rules/` тощо) забезпечують таке саме керівництво. `GRAPH_REPORT.md` все ще доступний для загального огляду архітектури.
 

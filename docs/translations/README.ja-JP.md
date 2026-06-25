@@ -64,6 +64,8 @@ pip install graphifyy && graphify install
 | OpenCode | `graphify install --platform opencode` |
 | OpenClaw | `graphify install --platform claw` |
 | Factory Droid | `graphify install --platform droid` |
+| CodeBuddy | `graphify install --platform codebuddy` |
+| CodeSquad | `graphify install --platform codesquad` |
 
 Codex ユーザーは並列抽出のために `~/.codex/config.toml` の `[features]` の下に `multi_agent = true` も必要です。Factory Droid は並列サブエージェントディスパッチに `Task` ツールを使用します。OpenClaw は逐次抽出を使用します（並列エージェントサポートはこのプラットフォームではまだ初期段階です）。
 
@@ -86,6 +88,8 @@ Codex ユーザーは並列抽出のために `~/.codex/config.toml` の `[featu
 | OpenCode | `graphify opencode install` |
 | OpenClaw | `graphify claw install` |
 | Factory Droid | `graphify droid install` |
+| CodeBuddy | `graphify codebuddy install` |
+| CodeSquad | `graphify codesquad install` |
 
 **Claude Code** は 2 つのことを行います：Claude にアーキテクチャの質問に答える前に `graphify-out/GRAPH_REPORT.md` を読むように指示する `CLAUDE.md` セクションを書き込み、すべての Glob と Grep 呼び出しの前に発火する **PreToolUse フック**（`settings.json`）をインストールします。ナレッジグラフが存在する場合、Claude は次のメッセージを見ます：_"graphify: Knowledge graph exists. Read GRAPH_REPORT.md for god nodes and community structure before searching raw files."_ ――これにより Claude はすべてのファイルを grep するのではなく、グラフを介してナビゲートします。
 

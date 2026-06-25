@@ -20,6 +20,7 @@ PLATFORMS = {
     "trae-cn": (".trae-cn/skills/graphify/SKILL.md",),
     "windows": (".claude/skills/graphify/SKILL.md",),
     "codebuddy": (".codebuddy/skills/graphify/SKILL.md",),
+    "codesquad": (".codesquad/skills/graphify/SKILL.md",),
 }
 
 
@@ -314,6 +315,7 @@ def test_all_skill_files_exist_in_package():
         "skill-trae.md",
         "skill-kiro.md",
         "skill-codebuddy.md",
+        "skill-codesquad.md",
     ):
         assert (pkg / name).exists(), f"Missing: {name}"
 

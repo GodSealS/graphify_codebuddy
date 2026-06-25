@@ -53,6 +53,7 @@ pip install graphifyy && graphify install
 | Trae | `graphify install --platform trae` |
 | Trae CN | `graphify install --platform trae-cn` |
 | CodeBuddy | `graphify install --platform codebuddy` |
+| CodeSquad | `graphify install --platform codesquad` |
 
 Codex 用户还需要在 `~/.codex/config.toml` 的 `[features]` 下打开 `multi_agent = true`，这样才能并行提取。OpenClaw 目前的并行 agent 支持还比较早期，所以使用顺序提取。Trae 使用 Agent 工具进行并行子代理调度，**不支持** PreToolUse hook，因此 AGENTS.md 是其常驻机制。
 
@@ -75,6 +76,8 @@ Codex 用户还需要在 `~/.codex/config.toml` 的 `[features]` 下打开 `mult
 | Factory Droid | `graphify droid install` |
 | Trae | `graphify trae install` |
 | Trae CN | `graphify trae-cn install` |
+| CodeBuddy | `graphify codebuddy install` |
+| CodeSquad | `graphify codesquad install` |
 
 **Claude Code** 会做两件事：
 1. 在 `CLAUDE.md` 中写入一段规则，告诉 Claude 在回答架构问题前先读 `graphify-out/GRAPH_REPORT.md`
