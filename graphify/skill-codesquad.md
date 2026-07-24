@@ -1,7 +1,10 @@
 ---
 name: graphify
 description: "Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a graphify query first. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools."
-trigger: /graphify
+description_cn: "将代码、文档、论文、图片、视频转化为可查询的知识图谱，支持社区发现、查询/路径/解释工具。通过/graphify调用。"
+argument-hint: "[path] [--mode deep|--update|--cluster-only|--watch|--wiki|--svg|--graphml|--neo4j|--mcp]"
+user-invocable: true
+allowed-tools: Bash, Read, Glob, Grep, Write, WebFetch, Task
 ---
 
 # /graphify
@@ -120,7 +123,7 @@ Warning: {warning or 'none'}
 Skipped: {skipped_sensitive or 'none'}
 ```
 
-**Decision point:** if `needs_graph` is `False`, the corpus is small enough to fit in context. Tell the user the grap is unnecessary and offer to build one anyway.
+**Decision point:** if `needs_graph` is `False`, the corpus is small enough to fit in context. Tell the user the graph is unnecessary and offer to build one anyway.
 
 **Decision point:** if the total word count is 0 (empty or unreadable corpus), exit with an error and don't proceed to Step 3.
 
@@ -147,7 +150,7 @@ print(json.dumps({'nodes': _, 'edges': _, ...}))
 
 1. **Code (local, free):** AST extraction via tree-sitter. Imports, classes, functions, call chains. No API calls.
 2. **Video/Audio (local, free):** faster-whisper transcriber. Only if corpus has video files.
-3. **Semantic (LLM, costs tokens):** Docs, PDFs, images, and transcripts. Dispatched to subagents.
+3. **Semantic (LLM, costs tokens):** Docs, PDFs, images, and transcripts. Dispatched to subagents. Uses the host LLM — no separate API key required.
 
 #### Step A - AST pass (code files only)
 
@@ -353,7 +356,7 @@ Done. Graph built:
   graphify-out/
   ├── graph.html        open in any browser — click nodes, filter by community
   ├── GRAPH_REPORT.md   the highlights: key concepts, surprising connections
-  └── graph.json        query it anytime → /graphify query \"...\"
+  └── graph.json        query it anytime → /graphify query "..."
 ```
 
 ### Step 8 - Cache update
@@ -390,3 +393,16 @@ Neither is part of the default build. When the user runs `/graphify add <url>` t
 ## For hooks / always-on setup
 
 When the user asks to install the post-commit auto-rebuild hook or wire graphify into a project's AGENTS.md, see `references/hooks.md`.
+
+---
+
+## Collaboration Protocol
+
+Before writing any files, explicitly ask: **"May I write this to [filepath]?"**
+Show a summary of the proposed changes and wait for approval before using Write/Edit tools.
+
+## Recommended Next Steps
+
+- If the graph was just built: run `/graphify query "what is the architecture?"` to explore
+- After code changes: run `/graphify update .` to keep the graph current
+- For deeper analysis: run `/graphify query "<specific question>"` with context about what you're investigating

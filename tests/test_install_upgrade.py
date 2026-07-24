@@ -145,9 +145,14 @@ def test_claude_install_upgrades_stale_hook_payload(tmp_path, monkeypatch):
     assert _OLD_HOOK_PAYLOAD_SNIPPET not in new_settings_text, (
         "stale hook payload survived upgrade"
     )
-    assert "graphify query" in new_settings_text, (
-        "new hook payload should route to `graphify query`"
+    # Since #522 the nudge text lives in the `graphify hook-guard` subcommand, not
+    # inline in settings.json (so the command parses on Windows). The upgraded hook
+    # must therefore route to that shell-agnostic subcommand, and the old bash
+    # pipeline must be gone.
+    assert "hook-guard" in new_settings_text, (
+        "new hook payload should route to the `graphify hook-guard` subcommand"
     )
+    assert "case x in" not in new_settings_text, "stale bash pipeline survived upgrade"
 
 
 def test_agents_install_upgrades_stale_section(tmp_path, monkeypatch):
@@ -231,3 +236,42 @@ def test_kiro_install_upgrades_stale_steering(tmp_path, monkeypatch):
     assert "read it before answering architecture questions" not in after
     _assert_query_first(after, ".kiro/steering/graphify.md")
     assert "inclusion: always" in after  # frontmatter preserved
+
+
+def test_kiro_install_ships_references_sidecar_and_version_stamp(tmp_path, monkeypatch):
+    """_kiro_install routes through _copy_skill_file so the references/ sidecar
+    and .graphify_version stamp are written alongside SKILL.md (#1142).
+    Previously it used a bare write_text that bypassed the shared helper."""
+    monkeypatch.setattr(mainmod, "_check_skill_version", lambda _: None)
+
+    refs_dir = Path(mainmod.__file__).parent / "skills" / "kiro" / "references"
+    if not refs_dir.exists():
+        pytest.skip("kiro references bundle not present in this checkout")
+
+    mainmod._kiro_install(tmp_path)
+
+    skill_dir = tmp_path / ".kiro" / "skills" / "graphify"
+
+    # SKILL.md present
+    assert (skill_dir / "SKILL.md").exists()
+
+    # references/ sidecar installed with at least one fragment
+    refs_dst = skill_dir / "references"
+    assert refs_dst.is_dir(), "references/ sidecar must be installed (#1142)"
+    assert any(refs_dst.iterdir()), "references/ must not be empty"
+
+    # .graphify_version stamp written
+    version_file = skill_dir / ".graphify_version"
+    assert version_file.exists(), ".graphify_version stamp must be written (#1142)"
+    assert version_file.read_text(encoding="utf-8") == mainmod.__version__
+
+    # no references.tmp leftover
+    assert not (skill_dir / "references.tmp").exists()
+
+    # steering file still written
+    assert (tmp_path / ".kiro" / "steering" / "graphify.md").exists()
+
+    # uninstall removes skill dir, version stamp, references/, and steering file
+    mainmod._kiro_uninstall(tmp_path)
+    assert not skill_dir.exists(), "uninstall must remove skill dir including references/ (#1142)"
+    assert not (tmp_path / ".kiro" / "steering" / "graphify.md").exists()
