@@ -89,6 +89,8 @@ from graphify.install import (  # noqa: E402,F401
     claude_uninstall,
     codebuddy_install,
     codebuddy_uninstall,
+    codesquad_install,
+    codesquad_uninstall,
     gemini_install,
     gemini_uninstall,
     install,
@@ -533,7 +535,7 @@ def _run_cli() -> None:
         print("Usage: graphify <command>")
         print()
         print("Commands:")
-        print("  install [--platform P]  copy skill to platform config dir (claude|windows|codebuddy|codex|opencode|aider|amp|agents|claw|droid|trae|trae-cn|gemini|cursor|antigravity|hermes|kiro|pi|devin)")
+        print("  install [--platform P]  copy skill to platform config dir (claude|windows|codebuddy|codesquad|codex|opencode|aider|amp|agents|claw|droid|trae|trae-cn|gemini|cursor|antigravity|hermes|kiro|pi|devin)")
         print("  uninstall               remove graphify from all detected platforms in one shot")
         print("    --purge                 also delete graphify-out/ directory")
         print("  path \"A\" \"B\"            shortest path between two nodes in graph.json")
@@ -731,6 +733,8 @@ def _run_cli() -> None:
         print("  pi uninstall            remove skill from ~/.pi/agent/skills/graphify/")
         print("  devin install           write skill to ~/.config/devin/skills/graphify/ (Devin CLI)")
         print("  devin uninstall         remove skill from ~/.config/devin/skills/graphify/")
+        print("  codesquad install       write skill + AGENTS.md to .codesquad/ (CodeSquad, project-scoped)")
+        print("  codesquad uninstall     remove skill + AGENTS.md from .codesquad/")
         print()
         return
 

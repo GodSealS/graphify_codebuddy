@@ -217,6 +217,36 @@ def test_codebuddy_uninstall_noop_if_no_section(tmp_path):
     assert "# Some other project" in content
 
 
+def test_codebuddy_uninstall_removes_hook_when_codebuddy_md_is_missing(tmp_path):
+    """A deleted CODEBUDDY.md must not prevent hook cleanup."""
+    from graphify.__main__ import codebuddy_install, codebuddy_uninstall
+
+    codebuddy_install(tmp_path)
+    _codebuddy_md_path(tmp_path).unlink()
+
+    codebuddy_uninstall(tmp_path)
+
+    settings = json.loads(_settings_path(tmp_path).read_text())
+    hooks = settings.get("hooks", {}).get("PreToolUse", [])
+    assert not any("graphify" in str(h) for h in hooks)
+
+
+def test_codebuddy_uninstall_preserves_non_mapping_hook_entries(tmp_path):
+    """Uninstall must tolerate and preserve hook entries owned by other tools."""
+    from graphify.__main__ import codebuddy_install, codebuddy_uninstall
+
+    codebuddy_install(tmp_path)
+    settings_path = _settings_path(tmp_path)
+    settings = json.loads(settings_path.read_text())
+    settings["hooks"]["PreToolUse"].insert(0, "keep-me")
+    settings_path.write_text(json.dumps(settings))
+
+    codebuddy_uninstall(tmp_path)
+
+    settings = json.loads(settings_path.read_text())
+    assert settings["hooks"]["PreToolUse"] == ["keep-me"]
+
+
 def test_codebuddy_uninstall_preserves_other_content(tmp_path):
     """Uninstall preserves non-graphify content in CODEBUDDY.md."""
     from graphify.__main__ import codebuddy_install, codebuddy_uninstall

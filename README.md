@@ -213,6 +213,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | Claude Code (Linux/Mac) | `graphify install` |
 | Claude Code (Windows) | `graphify install` (auto-detected) or `graphify install --platform windows` |
 | CodeBuddy | `graphify install --platform codebuddy` |
+| CodeSquad | `graphify install --platform codesquad` (always project-scoped under `.codesquad/`) |
 | Codex | `graphify install --platform codex` |
 | OpenCode | `graphify install --platform opencode` |
 | Kilo Code | `graphify install --platform kilo` |
@@ -285,6 +286,7 @@ Run this once in your project after building a graph:
 |----------|---------|
 | Claude Code | `graphify claude install` |
 | CodeBuddy | `graphify codebuddy install` |
+| CodeSquad | `graphify codesquad install` (always project-scoped under `.codesquad/`) |
 | Codex | `graphify codex install` |
 | OpenCode | `graphify opencode install` |
 | Kilo Code | `graphify kilo install` |
@@ -314,6 +316,8 @@ This writes a small config file that tells your assistant to consult the knowled
 `GRAPH_REPORT.md` is still available for broad architecture review.
 
 **CodeBuddy** does the same two things as Claude Code: writes a `CODEBUDDY.md` section telling CodeBuddy to read `graphify-out/GRAPH_REPORT.md` before answering architecture questions, and installs `PreToolUse` hooks (`.codebuddy/settings.json`) that fire before Bash search commands and file reads, nudging toward `graphify query` instead.
+
+**CodeSquad** installs the skill and its on-demand references under `.codesquad/skills/graphify/`, then writes the query-first guidance to `.codesquad/AGENTS.md`. CodeSquad installs are always project-scoped; neither install nor uninstall touches `~/.codesquad`.
 
 **Codex** writes to `AGENTS.md`, which is what actually carries the always-on graph guidance on this platform. `graphify codex install` also registers a `PreToolUse` hook in `.codex/hooks.json` (`graphify hook-check`), but that entry is deliberately a **no-op**: Codex Desktop rejects `hookSpecificOutput.additionalContext` on `PreToolUse`, so emitting a nudge there would break Bash tool calls. Unlike Claude Code, where the hook (`graphify hook-guard`) does the nudging, on Codex the hook fires and intentionally does nothing, and `AGENTS.md` is the always-on mechanism.
 
@@ -732,6 +736,8 @@ graphify claude install            # CLAUDE.md + PreToolUse hook (Claude Code)
 graphify claude uninstall
 graphify codebuddy install         # CODEBUDDY.md + PreToolUse hook (CodeBuddy)
 graphify codebuddy uninstall
+graphify codesquad install         # .codesquad skill + AGENTS.md (project-scoped)
+graphify codesquad uninstall
 graphify codex install             # AGENTS.md + PreToolUse hook in .codex/hooks.json (Codex)
 graphify opencode install          # AGENTS.md + tool.execute.before plugin (OpenCode)
 graphify kilo install              # native Kilo skill + /graphify command + AGENTS.md + .kilo plugin

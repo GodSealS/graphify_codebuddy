@@ -20,6 +20,7 @@ PLATFORMS = {
     "trae": (".trae/skills/graphify/SKILL.md",),
     "trae-cn": (".trae-cn/skills/graphify/SKILL.md",),
     "windows": (".claude/skills/graphify/SKILL.md",),
+    "codesquad": (".codesquad/skills/graphify/SKILL.md",),
 }
 
 
@@ -202,6 +203,37 @@ def test_install_claude_md_success_output_unchanged(tmp_path, monkeypatch, capsy
 def test_install_codebuddy(tmp_path):
     _install(tmp_path, "codebuddy")
     assert (tmp_path / ".codebuddy" / "skills" / "graphify" / "SKILL.md").exists()
+
+
+def test_install_codesquad(tmp_path, monkeypatch):
+    """`--platform codesquad` is always project-scoped: skill + AGENTS.md under CWD/.codesquad."""
+    from graphify.__main__ import install
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        install(platform="codesquad")
+    assert (project / ".codesquad" / "skills" / "graphify" / "SKILL.md").exists()
+    agents = project / ".codesquad" / "AGENTS.md"
+    assert agents.exists()
+    assert "## graphify" in agents.read_text()
+    assert not (home / ".codesquad").exists()
+
+
+def test_top_level_help_install_platform_list_includes_codesquad(capsys, monkeypatch):
+    """The concise install platform list must advertise CodeSquad."""
+    from graphify.__main__ import main
+
+    monkeypatch.setattr(sys, "argv", ["graphify", "--help"])
+    main()
+
+    install_line = next(
+        line for line in capsys.readouterr().out.splitlines()
+        if line.strip().startswith("install [--platform P]")
+    )
+    assert "codesquad" in install_line
 
 
 def test_install_codex(tmp_path):
@@ -477,6 +509,7 @@ def test_all_skill_files_exist_in_package():
         "skill-droid.md",
         "skill-trae.md",
         "skill-kiro.md",
+        "skill-codesquad.md",
     ):
         assert (pkg / name).exists(), f"Missing: {name}"
 
@@ -1257,6 +1290,122 @@ def test_uninstall_all_removes_amp_user_skill(tmp_path, monkeypatch):
         main()
 
     assert not skill.exists()
+
+
+def test_codesquad_subcommand_installs_project_scope(tmp_path, monkeypatch, capsys):
+    """`graphify codesquad install` writes skill + AGENTS.md to CWD/.codesquad, never HOME."""
+    from graphify.__main__ import main
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "install"])
+        main()
+
+    skill = project / ".codesquad" / "skills" / "graphify" / "SKILL.md"
+    agents = project / ".codesquad" / "AGENTS.md"
+    assert skill.exists()
+    assert agents.exists()
+    assert "## graphify" in agents.read_text()
+    assert not (home / ".codesquad").exists()
+    out = capsys.readouterr().out
+    assert "Project-scoped install" in out
+    assert "git add" in out
+
+
+def test_codesquad_project_flag_still_installs_project_scope(tmp_path, monkeypatch):
+    """`--project` is a no-op extra: CodeSquad always installs to the project."""
+    from graphify.__main__ import main
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "install", "--project"])
+        main()
+
+    assert (project / ".codesquad" / "skills" / "graphify" / "SKILL.md").exists()
+    assert (project / ".codesquad" / "AGENTS.md").exists()
+    assert not (home / ".codesquad").exists()
+
+
+def test_codesquad_uninstall_clears_project_tree(tmp_path, monkeypatch):
+    """`codesquad uninstall` (and --project) both clear <project>/.codesquad."""
+    from graphify.__main__ import main
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "install"])
+        main()
+        skill = project / ".codesquad" / "skills" / "graphify" / "SKILL.md"
+        agents = project / ".codesquad" / "AGENTS.md"
+        assert skill.exists() and agents.exists()
+
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "uninstall", "--project"])
+        main()
+
+    assert not skill.exists()
+    assert not agents.exists()
+    assert not (home / ".codesquad").exists()
+
+
+def test_uninstall_all_removes_codesquad_project_skill(tmp_path, monkeypatch):
+    """`graphify uninstall` must remove the project-scoped CodeSquad skill and AGENTS.md."""
+    from graphify.__main__ import main
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "install"])
+        main()
+        skill = project / ".codesquad" / "skills" / "graphify" / "SKILL.md"
+        agents = project / ".codesquad" / "AGENTS.md"
+        assert skill.exists()
+
+        monkeypatch.setattr(sys, "argv", ["graphify", "uninstall"])
+        main()
+
+    assert not skill.exists()
+    assert not agents.exists()
+    assert not (home / ".codesquad").exists()
+
+
+def test_codesquad_install_uninstall_roundtrip(tmp_path, monkeypatch):
+    from graphify.__main__ import main
+
+    home = tmp_path / "home"
+    project = tmp_path / "project"
+    project.mkdir()
+    monkeypatch.chdir(project)
+    with patch("graphify.__main__.Path.home", return_value=home):
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "install"])
+        main()
+        monkeypatch.setattr(sys, "argv", ["graphify", "codesquad", "uninstall"])
+        main()
+
+    assert not (project / ".codesquad" / "skills" / "graphify" / "SKILL.md").exists()
+    assert not (project / ".codesquad" / "AGENTS.md").exists()
+    assert not (home / ".codesquad").exists()
+
+
+def test_codesquad_hooks_reference_points_at_codesquad_install():
+    """Installed CodeSquad hooks.md must not send the agent to `claude install`."""
+    import graphify
+
+    hooks = (Path(graphify.__file__).parent / "skills" / "codesquad" / "references" / "hooks.md").read_text()
+    assert "graphify codesquad install" in hooks
+    assert "graphify claude install" not in hooks
+    assert "CLAUDE.md" not in hooks
+    assert "~/.codesquad" not in hooks
+    assert ".codesquad/AGENTS.md" in hooks
 
 
 def test_hermes_skill_destination_windows_uses_localappdata():
