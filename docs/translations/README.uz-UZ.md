@@ -87,8 +87,6 @@ pip install graphifyy && graphify install
 | Kiro IDE/CLI | `graphify kiro install` |
 | Cursor | `graphify cursor install` |
 | Google Antigravity | `graphify antigravity install` |
-| CodeBuddy | `graphify install --platform codebuddy` |
-| CodeSquad | `graphify install --platform codesquad` |
 
 Keyin AI yordamchingizni oching va kiriting:
 
@@ -111,8 +109,6 @@ Graf qurilgandan so'ng, loyihangizda buni bir marta bajaring:
 | Gemini CLI | `graphify gemini install` |
 | Kiro IDE/CLI | `graphify kiro install` |
 | Google Antigravity | `graphify antigravity install` |
-| CodeBuddy | `graphify codebuddy install` |
-| CodeSquad | `graphify codesquad install` |
 
 ## Foydalanish
 

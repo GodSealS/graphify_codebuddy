@@ -301,17 +301,10 @@ def test_gemini_install_references_all_resolve(tmp_path):
     gemini ships claude's lean skill.md body but resolves its references through a
     separate path, so this locks the body<->refs coupling: a real install with the
     real claude bundle must leave no dead pointer on disk.
-
-    Note: On Windows, user-level gemini skills are stored under .agents/ instead of
-    .gemini/ (see _platform_skill_destination). The test mirrors that logic.
     """
     import re
-    import sys
     _install(tmp_path, "gemini")
-    # _platform_skill_destination("gemini", project=False) on Windows
-    # returns Path.home()/.agents/... — match that logic here.
-    expected_dir = ".agents" if sys.platform == "win32" else ".gemini"
-    skill = tmp_path / expected_dir / "skills" / "graphify" / "SKILL.md"
+    skill = tmp_path / ".gemini" / "skills" / "graphify" / "SKILL.md"
     assert skill.exists()
     refdir = skill.parent / "references"
     assert refdir.is_dir()
@@ -359,8 +352,8 @@ def test_pyproject_declares_references_globs():
     assert "skills/*/SKILL.md" not in pkg_data
 
 
-# The full progressive-disclosure payload the wheel must ship: 17 skill bodies,
-# 120 references (15 split hosts x 8 each), and 6 always-on injection blocks.
+# The full progressive-disclosure payload the wheel must ship: 15 skill bodies,
+# 104 references (13 split hosts x 8 each), and 6 always-on injection blocks.
 _EXPECTED_SKILL_BODIES = (
     "skill.md",
     "skill-codex.md",
@@ -377,13 +370,10 @@ _EXPECTED_SKILL_BODIES = (
     "skill-vscode.md",
     "skill-pi.md",
     "skill-devin.md",
-    "skill-codebuddy.md",
-    "skill-codesquad.md",
 )
 _SPLIT_HOSTS = (
     "claude", "codex", "windows", "opencode", "kilo", "copilot",
-    "claw", "droid", "amp", "trae", "kiro", "pi", "vscode", "codebuddy",
-    "codesquad",
+    "claw", "droid", "amp", "trae", "kiro", "pi", "vscode",
 )
 _REFERENCE_NAMES = (
     "add-watch.md", "exports.md", "extraction-spec.md", "github-and-merge.md",
@@ -455,7 +445,7 @@ def test_built_wheel_ships_the_full_skill_payload():
 
     missing_bodies = [b for b in _EXPECTED_SKILL_BODIES if f"graphify/{b}" not in names]
     assert not missing_bodies, f"wheel is missing skill bodies: {missing_bodies}"
-    assert len(_EXPECTED_SKILL_BODIES) == 17
+    assert len(_EXPECTED_SKILL_BODIES) == 15
 
     missing_refs = [
         f"graphify/skills/{host}/references/{ref}"
@@ -464,7 +454,7 @@ def test_built_wheel_ships_the_full_skill_payload():
         if f"graphify/skills/{host}/references/{ref}" not in names
     ]
     assert not missing_refs, f"wheel is missing references: {missing_refs}"
-    assert len(_SPLIT_HOSTS) * len(_REFERENCE_NAMES) == 120
+    assert len(_SPLIT_HOSTS) * len(_REFERENCE_NAMES) == 104
 
     missing_always_on = [
         f"graphify/always_on/{name}"
@@ -524,3 +514,35 @@ def test_amp_user_install_carries_references(tmp_path, monkeypatch):
         main()
 
     assert not skill_dir.exists()
+
+
+def test_install_from_read_only_package_dir(tmp_path, fake_bundle):
+    """Install succeeds when the packaged bundle is read-only.
+
+    Nix store paths are mode 0o555, as are root-owned site-packages and
+    container image layers. copytree preserves those bits onto references.tmp,
+    and renaming a directory needs write permission on the directory itself to
+    update its ".." entry — so the staging rename fails with EACCES unless the
+    staged copy is made writable first.
+    """
+    platform = fake_bundle
+    bundle = mainmod._PLATFORM_CONFIG[platform]["skill_refs"]
+    refs_src = PKG_DIR / "skills" / bundle / "references"
+
+    modes = {p: p.stat().st_mode for p in (refs_src, *refs_src.rglob("*"))}
+    for path in modes:
+        path.chmod(0o555 if path.is_dir() else 0o444)
+    try:
+        _install(tmp_path, platform)
+    finally:
+        for path, mode in modes.items():
+            path.chmod(mode)
+
+    skill_dir = tmp_path / ".claude" / "skills" / "graphify"
+    refs = skill_dir / "references"
+    assert refs.is_dir()
+    assert (refs / "query.md").read_text() == "# query fragment\n"
+    assert not (skill_dir / "references.tmp").exists()
+    # The installed sidecar must stay writable, or the next install cannot
+    # rmtree it to swap in a new one.
+    assert os.access(refs, os.W_OK)

@@ -87,8 +87,6 @@ pip install graphifyy && graphify install
 | Kiro IDE/CLI | `graphify kiro install` |
 | Cursor | `graphify cursor install` |
 | Google Antigravity | `graphify antigravity install` |
-| CodeBuddy | `graphify install --platform codebuddy` |
-| CodeSquad | `graphify install --platform codesquad` |
 
 Depois abra seu assistente de código IA e digite:
 
@@ -111,8 +109,6 @@ Após construir um grafo, execute isso uma vez no seu projeto:
 | Gemini CLI | `graphify gemini install` |
 | Kiro IDE/CLI | `graphify kiro install` |
 | Google Antigravity | `graphify antigravity install` |
-| CodeBuddy | `graphify codebuddy install` |
-| CodeSquad | `graphify codesquad install` |
 
 ## Uso
 
