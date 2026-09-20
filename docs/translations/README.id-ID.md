@@ -42,14 +42,14 @@ Setiap hubungan diberi label `EXTRACTED`, `INFERRED` (dengan skor kepercayaan), 
 **Persyaratan:** Python 3.10+ dan salah satu dari: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) dan lainnya.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # atau dengan pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # atau pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Paket resmi:** Paket PyPI bernama `graphifyy`. Satu-satunya repositori resmi adalah [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Paket resmi:** Paket PyPI bernama `graphifyy`. Satu-satunya repositori resmi adalah [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Penggunaan
 

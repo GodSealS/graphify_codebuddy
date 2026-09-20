@@ -113,11 +113,11 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # پیشنهادی (uv به‌طور خودکار graphify را در PATH قرار می‌دهد):
-uv tool install graphifyy
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 # جایگزین‌ها:
-pipx install graphifyy
-pip install graphifyy  # ممکن است نیاز به تنظیم PATH داشته باشد — یادداشت زیر را ببینید
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # ممکن است نیاز به تنظیم PATH داشته باشد — یادداشت زیر را ببینید
 ```
 
 <div dir="rtl">
@@ -147,7 +147,7 @@ graphify install --project --platform codex
 
 > **یادداشت PowerShell:** از `graphify .` استفاده کنید نه `/graphify .` — اسلش ابتدایی در PowerShell جداکننده مسیر است.
 
-> **`graphify: command not found`؟** از `uv tool install graphifyy` یا `pipx install graphifyy` استفاده کنید — هر دو CLI را به‌طور خودکار در PATH قرار می‌دهند.
+> **`graphify: command not found`؟** از `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` یا `pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` استفاده کنید — هر دو CLI را به‌طور خودکار در PATH قرار می‌دهند.
 
 ### انتخاب پلتفرم
 
@@ -188,19 +188,19 @@ graphify install --project --platform codex
 
 | افزونه | چه چیزی اضافه می‌کند | نصب |
 |---|---|---|
-| `pdf` | استخراج PDF | `uv tool install "graphifyy[pdf]"` |
-| `office` | پشتیبانی از `.docx` و `.xlsx` | `uv tool install "graphifyy[office]"` |
-| `google` | رندرینگ Google Sheets | `uv tool install "graphifyy[google]"` |
-| `video` | رونویسی ویدئو/صوت | `uv tool install "graphifyy[video]"` |
-| `mcp` | سرور MCP stdio | `uv tool install "graphifyy[mcp]"` |
+| `pdf` | استخراج PDF | `uv tool install "graphifyy[pdf] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `office` | پشتیبانی از `.docx` و `.xlsx` | `uv tool install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `google` | رندرینگ Google Sheets | `uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `video` | رونویسی ویدئو/صوت | `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `mcp` | سرور MCP stdio | `uv tool install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 | `neo4j` | پشتیبانی از Neo4j | `uv tool install "graphifyy[neo4j]"` |
-| `ollama` | استنتاج محلی Ollama | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / APIهای سازگار با OpenAI | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (از IAM استفاده می‌کند) | `uv tool install "graphifyy[bedrock]"` |
-| `sql` | استخراج طرح SQL | `uv tool install "graphifyy[sql]"` |
-| `all` | همه موارد بالا | `uv tool install "graphifyy[all]"` |
+| `ollama` | استنتاج محلی Ollama | `uv tool install "graphifyy[ollama] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `openai` | OpenAI / APIهای سازگار با OpenAI | `uv tool install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `anthropic` | Anthropic Claude API | `uv tool install "graphifyy[anthropic] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `bedrock` | AWS Bedrock (از IAM استفاده می‌کند) | `uv tool install "graphifyy[bedrock] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `sql` | استخراج طرح SQL | `uv tool install "graphifyy[sql] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `all` | همه موارد بالا | `uv tool install "graphifyy[all] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 
 ---
 
@@ -405,11 +405,11 @@ python -m graphify.serve graphify-out/graph.json --transport http --host 0.0.0.0
 
 ## عیب‌یابی
 
-**`graphify: command not found` پس از `pip install graphifyy`**
+**`graphify: command not found` پس از `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`**
 pip اسکریپت‌ها را در دایرکتوری bin کاربر نصب می‌کند که ممکن است در PATH نباشد:
 - macOS: `~/Library/Python/3.x/bin` را به PATH در `~/.zshrc` اضافه کنید
 - Linux: `~/.local/bin` را به PATH در `~/.bashrc` اضافه کنید
-- یا از `uv tool install graphifyy` / `pipx install graphifyy` استفاده کنید.
+- یا از `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` / `pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` استفاده کنید.
 
 **`/graphify .` در PowerShell "path not recognized" نشان می‌دهد**
 PowerShell `/` ابتدایی را به‌عنوان جداکننده مسیر در نظر می‌گیرد. از `graphify .` (بدون اسلش) در Windows استفاده کنید.
@@ -533,8 +533,8 @@ graphify --version
 </div>
 
 ```bash
-git clone https://github.com/safishamsi/graphify.git
-cd graphify
+git clone https://github.com/GodSealS/graphify_codebuddy.git
+cd graphify_codebuddy
 git checkout v8                        # شاخه توسعه فعال
 
 uv sync --all-extras

@@ -15,7 +15,7 @@ def introspect_postgres(dsn: str | None = None) -> dict:
     except ModuleNotFoundError:
         raise ImportError(
             "psycopg is required for --postgres. "
-            "Install with: pip install 'graphifyy[postgres]'"
+            "Install with: pip install 'graphifyy[postgres] @ git+https://github.com/GodSealS/graphify_codebuddy.git'"
         )
 
     try:
@@ -160,6 +160,6 @@ def introspect_postgres(dsn: str | None = None) -> dict:
     if result.get("error"):
         raise ImportError(
             f"{result['error']} (required by --postgres; "
-            "install with: pip install 'graphifyy[postgres]')"
+            "install with: pip install 'graphifyy[postgres] @ git+https://github.com/GodSealS/graphify_codebuddy.git')"
         )
     return result

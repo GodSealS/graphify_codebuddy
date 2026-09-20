@@ -70,16 +70,16 @@ dist/
 
 ```bash
 # موصى به — يعمل على Mac وLinux دون إعداد PATH
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # أو مع pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # أو pip العادي
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
 <div dir="rtl">
 
-> **الحزمة الرسمية:** اسم حزمة PyPI هو `graphifyy` (تثبيت بـ `pip install graphifyy`). الحزم الأخرى المسماة `graphify*` على PyPI ليست تابعة لهذا المشروع. المستودع الرسمي الوحيد هو [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **الحزمة الرسمية:** اسم حزمة PyPI هو `graphifyy` (تثبيت بـ `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`). الحزم الأخرى المسماة `graphify*` على PyPI ليست تابعة لهذا المشروع. المستودع الرسمي الوحيد هو [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ### دعم المنصات
 

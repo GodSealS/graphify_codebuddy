@@ -42,14 +42,14 @@ Varje relation är märkt `EXTRACTED`, `INFERRED` (med konfidenspoäng) eller `A
 **Krav:** Python 3.10+ och ett av: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) med flera.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # eller med pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # eller pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Officiellt paket:** PyPI-paketet heter `graphifyy`. Det enda officiella förrådet är [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Officiellt paket:** PyPI-paketet heter `graphifyy`. Det enda officiella förrådet är [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Användning
 

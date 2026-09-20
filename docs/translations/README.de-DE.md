@@ -58,16 +58,16 @@ Jede Beziehung ist markiert als `EXTRACTED` (direkt in der Quelle gefunden), `IN
 
 ```bash
 # Empfohlen — funktioniert auf Mac und Linux ohne PATH-Einrichtung
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # oder mit pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # oder einfaches pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Offizielles Paket:** Das PyPI-Paket heißt `graphifyy` (installieren mit `pip install graphifyy`). Andere Pakete mit Namen `graphify*` auf PyPI sind nicht mit diesem Projekt verbunden. Das einzige offizielle Repository ist [safishamsi/graphify](https://github.com/safishamsi/graphify). CLI und Skill-Befehl heißen weiterhin `graphify`.
+> **Offizielles Paket:** Das PyPI-Paket heißt `graphifyy` (installieren mit `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`). Andere Pakete mit Namen `graphify*` auf PyPI sind nicht mit diesem Projekt verbunden. Das einzige offizielle Repository ist [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy). CLI und Skill-Befehl heißen weiterhin `graphify`.
 
-> **`graphify: command not found`?** Verwende `uv tool install graphifyy` (empfohlen) oder `pipx install graphifyy` — beide platzieren die CLI an einem verwalteten Ort, der automatisch im PATH ist. Mit einfachem `pip` musst du möglicherweise `~/.local/bin` (Linux) oder `~/Library/Python/3.x/bin` (Mac) zum PATH hinzufügen, oder `python -m graphify` verwenden.
+> **`graphify: command not found`?** Verwende `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` (empfohlen) oder `pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` — beide platzieren die CLI an einem verwalteten Ort, der automatisch im PATH ist. Mit einfachem `pip` musst du möglicherweise `~/.local/bin` (Linux) oder `~/Library/Python/3.x/bin` (Mac) zum PATH hinzufügen, oder `python -m graphify` verwenden.
 
 ### Plattformunterstützung
 

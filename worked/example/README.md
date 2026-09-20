@@ -20,7 +20,7 @@ raw/
 ## How to run
 
 ```bash
-pip install graphifyy
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 graphify install                        # Claude Code
 graphify install --platform codex       # Codex

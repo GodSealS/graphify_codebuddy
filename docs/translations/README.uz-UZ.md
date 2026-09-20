@@ -58,14 +58,14 @@ Har bir aloqa `EXTRACTED` (manbada to'g'ridan-to'g'ri topilgan), `INFERRED` (ish
 
 ```bash
 # Tavsiya etiladi — Mac va Linux da PATH ni sozlashsiz ishlaydi
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # yoki pipx bilan
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # yoki oddiy pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Rasmiy paket:** PyPI dagi paket nomi `graphifyy` (`pip install graphifyy` orqali o'rnatiladi). PyPI dagi boshqa `graphify*` nomli paketlar bu loyiha bilan bog'liq emas. Yagona rasmiy repozitoriy — [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Rasmiy paket:** PyPI dagi paket nomi `graphifyy` (`pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` orqali o'rnatiladi). PyPI dagi boshqa `graphify*` nomli paketlar bu loyiha bilan bog'liq emas. Yagona rasmiy repozitoriy — [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ### Platforma qo'llab-quvvatlash
 

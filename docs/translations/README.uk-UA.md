@@ -83,11 +83,11 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # Рекомендовано (uv автоматично додає graphify до PATH):
-uv tool install graphifyy
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 # Альтернативи:
-pipx install graphifyy
-pip install graphifyy
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 ```
 
 **Крок 2 — зареєструвати навичку у вашому ШІ-асистенті:**
@@ -109,7 +109,7 @@ graphify install --project --platform codex
 
 > **Примітка для PowerShell:** Використовуйте `graphify .` замість `/graphify .` — ведучий слеш є роздільником шляху в PowerShell.
 
-> **`graphify: command not found`?** Використовуйте `uv tool install graphifyy` або `pipx install graphifyy` — обидва автоматично додають CLI до PATH. При використанні звичайного `pip` додайте `~/.local/bin` (Linux) або `~/Library/Python/3.x/bin` (Mac) до вашого PATH, або запустіть `python -m graphify`.
+> **`graphify: command not found`?** Використовуйте `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` або `pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` — обидва автоматично додають CLI до PATH. При використанні звичайного `pip` додайте `~/.local/bin` (Linux) або `~/Library/Python/3.x/bin` (Mac) до вашого PATH, або запустіть `python -m graphify`.
 
 ### Оберіть платформу
 
@@ -143,20 +143,20 @@ graphify install --project --platform codex
 
 | Пакет | Що додає | Встановлення |
 |---|---|---|
-| `pdf` | Вилучення PDF | `pip install "graphifyy[pdf]"` |
-| `office` | Підтримка `.docx` та `.xlsx` | `pip install "graphifyy[office]"` |
-| `google` | Рендеринг Google Sheets | `pip install "graphifyy[google]"` |
-| `video` | Транскрипція відео/аудіо (faster-whisper + yt-dlp) | `pip install "graphifyy[video]"` |
-| `mcp` | MCP stdio-сервер | `pip install "graphifyy[mcp]"` |
+| `pdf` | Вилучення PDF | `pip install "graphifyy[pdf] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `office` | Підтримка `.docx` та `.xlsx` | `pip install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `google` | Рендеринг Google Sheets | `pip install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `video` | Транскрипція відео/аудіо (faster-whisper + yt-dlp) | `pip install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `mcp` | MCP stdio-сервер | `pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 | `neo4j` | Підтримка надсилання до Neo4j | `pip install "graphifyy[neo4j]"` |
-| `svg` | Експорт графу в SVG | `pip install "graphifyy[svg]"` |
-| `leiden` | Виявлення спільнот Leiden (лише Python < 3.13) | `pip install "graphifyy[leiden]"` |
-| `ollama` | Локальний вивід Ollama | `pip install "graphifyy[ollama]"` |
-| `openai` | OpenAI / OpenAI-сумісні API | `pip install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `pip install "graphifyy[gemini]"` |
-| `bedrock` | AWS Bedrock (використовує IAM, без API-ключа) | `pip install "graphifyy[bedrock]"` |
-| `sql` | Вилучення SQL схем | `pip install "graphifyy[sql]"` |
-| `all` | Все вищезазначене | `pip install "graphifyy[all]"` |
+| `svg` | Експорт графу в SVG | `pip install "graphifyy[svg] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `leiden` | Виявлення спільнот Leiden (лише Python < 3.13) | `pip install "graphifyy[leiden] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `ollama` | Локальний вивід Ollama | `pip install "graphifyy[ollama] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `openai` | OpenAI / OpenAI-сумісні API | `pip install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `gemini` | Google Gemini API | `pip install "graphifyy[gemini] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `bedrock` | AWS Bedrock (використовує IAM, без API-ключа) | `pip install "graphifyy[bedrock] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `sql` | Вилучення SQL схем | `pip install "graphifyy[sql] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `all` | Все вищезазначене | `pip install "graphifyy[all] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 
 ---
 
@@ -206,19 +206,19 @@ graphify install --project --platform codex
 |------|-----------|
 | Код (31 мова) | `.py .ts .js .jsx .tsx .mjs .go .rs .java .c .cpp .h .hpp .rb .cs .kt .scala .php .swift .lua .luau .zig .ps1 .ex .exs .m .mm .jl .vue .svelte .astro .groovy .gradle .dart .v .sv .sql .f .f90 .f95 .f03 .f08 .pas .pp .dpr .dpk .lpr .inc .dfm .lfm .lpk .sh .bash .json` |
 | Документи | `.md .mdx .qmd .html .txt .rst .yaml .yml` |
-| Office | `.docx .xlsx` (потрібен `pip install graphifyy[office]`) |
-| Google Workspace | `.gdoc .gsheet .gslides` (опціонально; потрібна автентифікація `gws` та `--google-workspace`; Sheets потребує `pip install graphifyy[google]`) |
+| Office | `.docx .xlsx` (потрібен `pip install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| Google Workspace | `.gdoc .gsheet .gslides` (опціонально; потрібна автентифікація `gws` та `--google-workspace`; Sheets потребує `pip install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 | PDF | `.pdf` |
 | Зображення | `.png .jpg .webp .gif` |
-| Відео / Аудіо | `.mp4 .mov .mp3 .wav` та інші (потрібен `pip install graphifyy[video]`) |
-| YouTube / URL | будь-який URL відео (потрібен `pip install graphifyy[video]`) |
+| Відео / Аудіо | `.mp4 .mov .mp3 .wav` та інші (потрібен `pip install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| YouTube / URL | будь-який URL відео (потрібен `pip install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 
 Код витягується локально без API-викликів (AST через tree-sitter). Все інше обробляється через API моделі вашого ШІ-асистента.
 
 Файли `.gdoc`, `.gsheet` та `.gslides` з Google Drive for desktop — це ярлики-посилання, а не вміст документів. Щоб включити нативні Google Docs, Sheets та Slides у безголове витягування, встановіть та автентифікуйте [`gws` CLI](https://github.com/googleworkspace/cli), потім запустіть:
 
 ```bash
-pip install "graphifyy[google]"  # потрібен для рендерингу таблиць Google Sheets
+pip install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # потрібен для рендерингу таблиць Google Sheets
 gws auth login -s drive
 graphify extract ./docs --google-workspace
 ```
@@ -314,7 +314,7 @@ MCP-сервер надає асистенту структурований до
 
 > **Примітка для WSL / Linux:** Ubuntu постачає `python3`, а не `python`. Використовуйте venv, щоб уникнути конфліктів:
 > ```bash
-> python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp]"
+> python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 > ```
 
 ---
@@ -360,11 +360,11 @@ MCP-сервер надає асистенту структурований до
 
 ## Вирішення проблем
 
-**`graphify: command not found` після `pip install graphifyy`**
+**`graphify: command not found` після `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`**
 pip встановлює скрипти в директорію bin для користувача, яка може не бути в PATH. Виправлення:
 - macOS: додайте `~/Library/Python/3.x/bin` до PATH у `~/.zshrc`
 - Linux: додайте `~/.local/bin` до PATH у `~/.bashrc`
-- Або використовуйте `uv tool install graphifyy` / `pipx install graphifyy` — обидва автоматично керують PATH.
+- Або використовуйте `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` / `pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` — обидва автоматично керують PATH.
 
 **`python -m graphify` працює, але команда `graphify` — ні**
 PATH вашої оболонки не включає директорію скриптів Python. Використовуйте `uv` або `pipx` замість звичайного `pip`.
@@ -545,8 +545,8 @@ graphify cluster-only ./my-project --exclude-hubs 99           # виключи�
 Клонуйте репо і встановіть у редагованому режимі:
 
 ```bash
-git clone https://github.com/safishamsi/graphify.git
-cd graphify
+git clone https://github.com/GodSealS/graphify_codebuddy.git
+cd graphify_codebuddy
 git checkout v8                        # гілка активної розробки
 
 # Створіть віртуальне середовище (потрібен Python 3.10+):

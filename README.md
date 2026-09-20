@@ -45,7 +45,7 @@ Type `/graphify` in your AI coding assistant and it maps your entire project (co
 **Get started** (30 seconds):
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # the CLI, from this fork
 graphify install               # register the skill with your AI assistant
 ```
 
@@ -157,17 +157,17 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## Install
 
-> **Official package:** The PyPI package is `graphifyy` (double-y). Other `graphify*` packages on PyPI are not affiliated. The CLI command is still `graphify`.
+> **Install from this repository, not PyPI.** This repository is the graphify fork that carries the CodeBuddy and CodeSquad platforms, so every install command on this page pins the source: `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`. The PyPI package `graphifyy` (double-y) is the upstream release and does **not** include this fork's platform support; other `graphify*` packages on PyPI are not affiliated. The CLI command is still `graphify`.
 
 **Step 1 — install the package:**
 
 ```bash
 # Recommended (isolated env; if 'graphify' isn't found after, run: uv tool update-shell):
-uv tool install graphifyy
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 # Alternatives:
-pipx install graphifyy
-pip install graphifyy  # may need PATH setup — see note below
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # may need PATH setup — see note below
 ```
 
 **Step 2 — register the skill with your AI assistant:**
@@ -197,7 +197,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 
 > **`graphify: command not found`?** `uv tool install` / `pipx install` put the `graphify` command in their tool bin dir (`~/.local/bin`). If your shell can't find it right after install — common on a fresh macOS + zsh setup — that dir isn't on your `PATH` yet: run `uv tool update-shell` (or `pipx ensurepath`), then open a new terminal. With plain `pip`, add `~/.local/bin` (Linux) or `~/Library/Python/3.x/bin` (Mac) to your PATH, or run `python -m graphify`.
 
-> **Running with `uvx` / `uv tool run` instead of installing?** Name the package, not the command: `uvx --from graphifyy graphify install`. Plain `uvx graphify …` fails (`No solution found … no versions of graphify`) because `uv tool run` reads the first word as a *package*, and the package is `graphifyy` — the `graphify` command lives inside it.
+> **Running with `uvx` / `uv tool run` instead of installing?** Name the package, not the command: `uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install`. Plain `uvx graphify …` fails (`No solution found … no versions of graphify`) because `uv tool run` reads the first word as a *package*, and the package is `graphifyy` — the `graphify` command lives inside it.
 
 > **Avoid `pip install` on Mac/Windows** if possible. The skill resolves Python at runtime from `graphify-out/.graphify_python`; if that points to a different environment than where `pip` installed the package, you'll get `ModuleNotFoundError: No module named 'graphify'`. `uv tool install` and `pipx install` isolate the package in their own env and avoid this entirely.
 
@@ -213,7 +213,7 @@ for example `graphify claude install --project` or `graphify codex install --pro
 | Claude Code (Linux/Mac) | `graphify install` |
 | Claude Code (Windows) | `graphify install` (auto-detected) or `graphify install --platform windows` |
 | CodeBuddy | `graphify install --platform codebuddy` |
-| CodeSquad | `graphify install --platform codesquad` (always project-scoped under `.codesquad/`) |
+| CodeSquad | `graphify install --platform codesquad` (default `~/.codesquad/`; add `--project` for `.codesquad/`) |
 | Codex | `graphify install --platform codex` |
 | OpenCode | `graphify install --platform opencode` |
 | Kilo Code | `graphify install --platform kilo` |
@@ -248,31 +248,31 @@ Codex users also need `multi_agent = true` under `[features]` in `~/.codex/confi
 
 | Extra | What it adds | Install |
 |---|---|---|
-| `pdf` | PDF extraction | `uv tool install "graphifyy[pdf]"` |
-| `office` | `.docx` and `.xlsx` support | `uv tool install "graphifyy[office]"` |
-| `google` | Google Sheets rendering | `uv tool install "graphifyy[google]"` |
-| `video` | Video/audio transcription (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | MCP stdio server | `uv tool install "graphifyy[mcp]"` |
+| `pdf` | PDF extraction | `uv tool install "graphifyy[pdf] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `office` | `.docx` and `.xlsx` support | `uv tool install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `google` | Google Sheets rendering | `uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `video` | Video/audio transcription (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `mcp` | MCP stdio server | `uv tool install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 | `neo4j` | Neo4j push support | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | FalkorDB push support | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | SVG graph export | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Leiden community detection (graspologic on Python < 3.13; native backend on 3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Ollama local inference | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / OpenAI-compatible APIs | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API (`--backend claude`, uses `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (uses IAM, no API key) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, uses `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | SQL schema extraction | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Live PostgreSQL introspection (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | BYOND DreamMaker `.dm`/`.dme` AST extraction (may need a C compiler + `python3-dev` if no wheel matches your platform) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST extraction | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST extraction (more accurate `calls`/`inherits` edges; falls back to a regex extractor when absent) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | OCaml `.ml`/`.mli` AST extraction | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST extraction | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Robot Framework `.robot`/`.resource` extraction (suites, test cases, keywords, keyword-call and resource/library import edges) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Chinese query segmentation (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Everything above | `uv tool install "graphifyy[all]"` |
+| `falkordb` | FalkorDB push support | `uv tool install "graphifyy[falkordb] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `svg` | SVG graph export | `uv tool install "graphifyy[svg] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `leiden` | Leiden community detection (graspologic on Python < 3.13; native backend on 3.13+) | `uv tool install "graphifyy[leiden] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `ollama` | Ollama local inference | `uv tool install "graphifyy[ollama] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `openai` | OpenAI / OpenAI-compatible APIs | `uv tool install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `anthropic` | Anthropic Claude API (`--backend claude`, uses `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `bedrock` | AWS Bedrock (uses IAM, no API key) | `uv tool install "graphifyy[bedrock] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, uses `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `sql` | SQL schema extraction | `uv tool install "graphifyy[sql] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `postgres` | Live PostgreSQL introspection (`--postgres DSN`) | `uv tool install "graphifyy[postgres] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `dm` | BYOND DreamMaker `.dm`/`.dme` AST extraction (may need a C compiler + `python3-dev` if no wheel matches your platform) | `uv tool install "graphifyy[dm] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST extraction | `uv tool install "graphifyy[terraform] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST extraction (more accurate `calls`/`inherits` edges; falls back to a regex extractor when absent) | `uv tool install "graphifyy[pascal] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `ocaml` | OCaml `.ml`/`.mli` AST extraction | `uv tool install "graphifyy[ocaml] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST extraction | `uv tool install "graphifyy[commonlisp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `robot` | Robot Framework `.robot`/`.resource` extraction (suites, test cases, keywords, keyword-call and resource/library import edges) | `uv tool install "graphifyy[robot] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `chinese` | Chinese query segmentation (jieba) | `uv tool install "graphifyy[chinese] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `all` | Everything above | `uv tool install "graphifyy[all] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 
 </details>
 
@@ -286,7 +286,7 @@ Run this once in your project after building a graph:
 |----------|---------|
 | Claude Code | `graphify claude install` |
 | CodeBuddy | `graphify codebuddy install` |
-| CodeSquad | `graphify codesquad install` (always project-scoped under `.codesquad/`) |
+| CodeSquad | `graphify codesquad install` (default `~/.codesquad/`; add `--project` for `.codesquad/`) |
 | Codex | `graphify codex install` |
 | OpenCode | `graphify opencode install` |
 | Kilo Code | `graphify kilo install` |
@@ -317,7 +317,7 @@ This writes a small config file that tells your assistant to consult the knowled
 
 **CodeBuddy** does the same two things as Claude Code: writes a `CODEBUDDY.md` section telling CodeBuddy to read `graphify-out/GRAPH_REPORT.md` before answering architecture questions, and installs `PreToolUse` hooks (`.codebuddy/settings.json`) that fire before Bash search commands and file reads, nudging toward `graphify query` instead.
 
-**CodeSquad** installs the skill and its on-demand references under `.codesquad/skills/graphify/`, then writes the query-first guidance to `.codesquad/AGENTS.md`. CodeSquad installs are always project-scoped; neither install nor uninstall touches `~/.codesquad`.
+**CodeSquad** installs the skill and its on-demand references under `.codesquad/skills/graphify/`, then writes the query-first guidance to `.codesquad/AGENTS.md`. Default is user-scope (`~/.codesquad/`); pass `--project` to write both under the project's `.codesquad/` instead. Skill and AGENTS.md always share the same scope.
 
 **Codex** writes to `AGENTS.md`, which is what actually carries the always-on graph guidance on this platform. `graphify codex install` also registers a `PreToolUse` hook in `.codex/hooks.json` (`graphify hook-check`), but that entry is deliberately a **no-op**: Codex Desktop rejects `hookSpecificOutput.additionalContext` on `PreToolUse`, so emitting a nudge there would break Bash tool calls. Unlike Claude Code, where the hook (`graphify hook-guard`) does the nudging, on Codex the hook fires and intentionally does nothing, and `AGENTS.md` is the always-on mechanism.
 
@@ -343,21 +343,21 @@ To remove graphify from all platforms at once: `graphify uninstall` (add `--purg
 
 | Type | Extensions |
 |------|-----------|
-| Code (37 tree-sitter grammars) | `.py .ts .mts .cts .js .jsx .tsx .mjs .go .rs .java .c .cpp .cc .cxx .h .hpp .cu .cuh .metal .rb .cs .kt .kts .scala .php .swift .lua .luau .toc .zig .ps1 .psm1 .psd1 .ex .exs .m .mm .ml .mli .jl .vue .svelte .astro .groovy .gradle .dart .v .sv .svh .sql .f .f90 .f95 .f03 .f08 .pas .pp .dpr .dpk .lpr .inc .dfm .lfm .lpk .sh .bash .json .dm .dme .dmi .dmm .dmf .sln .slnx .csproj .fsproj .vbproj .xaml .razor .cshtml` (`.dm`/`.dme` requires `uv tool install graphifyy[dm]`, `.ml`/`.mli` requires `uv tool install graphifyy[ocaml]`; `.mts`/`.cts` reuse the TypeScript grammar, `.cc`/`.cxx` and CUDA `.cu`/`.cuh` and Metal `.metal` reuse the C++ grammar) |
+| Code (37 tree-sitter grammars) | `.py .ts .mts .cts .js .jsx .tsx .mjs .go .rs .java .c .cpp .cc .cxx .h .hpp .cu .cuh .metal .rb .cs .kt .kts .scala .php .swift .lua .luau .toc .zig .ps1 .psm1 .psd1 .ex .exs .m .mm .ml .mli .jl .vue .svelte .astro .groovy .gradle .dart .v .sv .svh .sql .f .f90 .f95 .f03 .f08 .pas .pp .dpr .dpk .lpr .inc .dfm .lfm .lpk .sh .bash .json .dm .dme .dmi .dmm .dmf .sln .slnx .csproj .fsproj .vbproj .xaml .razor .cshtml` (`.dm`/`.dme` requires `uv tool install "graphifyy[dm] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`, `.ml`/`.mli` requires `uv tool install "graphifyy[ocaml] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`; `.mts`/`.cts` reuse the TypeScript grammar, `.cc`/`.cxx` and CUDA `.cu`/`.cuh` and Metal `.metal` reuse the C++ grammar) |
 | Salesforce Apex | `.cls .trigger` (regex-based; classes, interfaces, enums, methods, triggers, SOQL/DML edges) |
-| Terraform / HCL | `.tf .tfvars .hcl` (requires `uv tool install graphifyy[terraform]`) |
-| OCaml | `.ml .mli` (requires `uv tool install graphifyy[ocaml]`) |
-| Common Lisp | `.lisp .cl .lsp .asd` (requires `uv tool install graphifyy[commonlisp]`) |
-| Robot Framework | `.robot .resource` (via the official `robot.api` parser, requires `uv tool install graphifyy[robot]`; suites, test cases, user keywords, keyword-call and Resource/Library/Variables import edges) |
+| Terraform / HCL | `.tf .tfvars .hcl` (requires `uv tool install "graphifyy[terraform] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| OCaml | `.ml .mli` (requires `uv tool install "graphifyy[ocaml] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| Common Lisp | `.lisp .cl .lsp .asd` (requires `uv tool install "graphifyy[commonlisp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| Robot Framework | `.robot .resource` (via the official `robot.api` parser, requires `uv tool install "graphifyy[robot] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`; suites, test cases, user keywords, keyword-call and Resource/Library/Variables import edges) |
 | MCP configs | `.mcp.json` `mcp.json` `mcp_servers.json` `claude_desktop_config.json` — extracts server nodes, package refs, env var requirements |
 | Package manifests | `apm.yml` `pyproject.toml` `go.mod` `pom.xml` — one canonical package node per package (by name) plus `depends_on` edges, so a package referenced from many manifests is a single hub |
 | Docs | `.md .mdx .qmd .html .txt .rst .yaml .yml` (markdown `[text](./other.md)` links and `[[wikilinks]]` become `references` edges between docs) |
-| Office | `.docx .xlsx` (requires `uv tool install graphifyy[office]`) |
-| Google Workspace | `.gdoc .gsheet .gslides` (opt-in; requires `gws` auth and `--google-workspace`; Sheets need `uv tool install graphifyy[google]`) |
+| Office | `.docx .xlsx` (requires `uv tool install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| Google Workspace | `.gdoc .gsheet .gslides` (opt-in; requires `gws` auth and `--google-workspace`; Sheets need `uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 | PDFs | `.pdf` |
 | Images | `.png .jpg .webp .gif` |
-| Video / Audio | `.mp4 .mov .mp3 .wav` and more (requires `uv tool install graphifyy[video]`) |
-| YouTube / URLs | any video URL (requires `uv tool install graphifyy[video]`) |
+| Video / Audio | `.mp4 .mov .mp3 .wav` and more (requires `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| YouTube / URLs | any video URL (requires `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 
 Terraform module calls with a literal local `source` (`./...` or `../...`) link
 to a directory module node through an `EXTRACTED` `module_source` edge. Each
@@ -382,7 +382,7 @@ in a headless extraction, install and authenticate the
 [`gws` CLI](https://github.com/googleworkspace/cli), then run:
 
 ```bash
-uv tool install "graphifyy[google]"  # needed for Google Sheets table rendering
+uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # needed for Google Sheets table rendering
 gws auth login -s drive
 graphify extract ./docs --google-workspace
 ```
@@ -530,7 +530,7 @@ docker run -p 8080:8080 -v "$(pwd)/graphify-out:/data" graphify \
 
 > **WSL / Linux note:** Ubuntu ships `python3`, not `python`. Use a venv to avoid conflicts:
 > ```bash
-> python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp]"
+> python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 > ```
 
 ---
@@ -593,21 +593,21 @@ These are only needed for **headless / CI extraction** (`graphify extract`). Whe
 
 **`graphify: command not found` after installing**
 The CLI is installed but its bin directory isn't on your shell's `PATH`. Pick the fix for how you installed:
-- **uv** (`uv tool install graphifyy`): the command lands in uv's tool bin dir (`~/.local/bin`), which a fresh macOS/zsh setup often doesn't have on `PATH`. Run `uv tool update-shell`, then open a new terminal. (Find the dir with `uv tool dir --bin`.)
-- **pipx** (`pipx install graphifyy`): run `pipx ensurepath`, then open a new terminal.
-- **pip** (`pip install graphifyy`): pip installs scripts to a user bin dir that may not be on `PATH` — add `~/Library/Python/3.x/bin` (macOS) or `~/.local/bin` (Linux) to your `PATH` in `~/.zshrc`/`~/.bashrc`, or just run `python -m graphify`.
+- **uv** (`uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): the command lands in uv's tool bin dir (`~/.local/bin`), which a fresh macOS/zsh setup often doesn't have on `PATH`. Run `uv tool update-shell`, then open a new terminal. (Find the dir with `uv tool dir --bin`.)
+- **pipx** (`pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): run `pipx ensurepath`, then open a new terminal.
+- **pip** (`pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): pip installs scripts to a user bin dir that may not be on `PATH` — add `~/Library/Python/3.x/bin` (macOS) or `~/.local/bin` (Linux) to your `PATH` in `~/.zshrc`/`~/.bashrc`, or just run `python -m graphify`.
 
 **`uvx graphify …` or `uv tool run graphify …` fails to resolve `graphify`**
-The PyPI package is `graphifyy`; `graphify` is only the command it provides. `uv tool run` treats the first word as a *package name*, so it looks for a package called `graphify` and reports `No solution found … no versions of graphify`. Name the package explicitly: `uvx --from graphifyy graphify install` (same as `uv tool run --from graphifyy graphify install`). Or `uv tool install graphifyy` once and then call `graphify` directly.
+The PyPI package is `graphifyy`; `graphify` is only the command it provides. `uv tool run` treats the first word as a *package name*, so it looks for a package called `graphify` and reports `No solution found … no versions of graphify`. Name the package explicitly: `uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install` (same as `uv tool run --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install`). Or `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` once and then call `graphify` directly.
 
 **`uv run --with graphifyy python -m graphify` silently runs an older install**
-`uv run` uses your *system* Python, so if an older `graphifyy` also lives there (e.g. a past `pip install graphifyy`), Python can find that copy first on `sys.path` and `--with graphifyy` won't override it. It runs with no error, but you get the *old* version's behavior — e.g. env overrides like `OPENAI_BASE_URL` are silently ignored, so requests hit the default endpoint and fail with a 401 that looks like a bad key. The fingerprint is a `warning: skill is from graphify <newer>, package is <older>` line — that means a different install was loaded, not just a stale skill. Check which copy actually loaded:
+`uv run` uses your *system* Python, so if an older `graphifyy` also lives there (e.g. a past `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`), Python can find that copy first on `sys.path` and `--with graphifyy` won't override it. It runs with no error, but you get the *old* version's behavior — e.g. env overrides like `OPENAI_BASE_URL` are silently ignored, so requests hit the default endpoint and fail with a 401 that looks like a bad key. The fingerprint is a `warning: skill is from graphify <newer>, package is <older>` line — that means a different install was loaded, not just a stale skill. Check which copy actually loaded:
 ```bash
 python -c "import graphify; print(graphify.__file__)"
 ```
 Then run the installed command directly (it uses the uv-managed copy), or drop the stale system copy:
 ```bash
-uvx --from graphifyy graphify extract . --backend openai   # names the package explicitly
+uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify extract . --backend openai   # names the package explicitly
 pip uninstall graphifyy                                    # or remove the old system install
 ```
 
@@ -736,7 +736,7 @@ graphify claude install            # CLAUDE.md + PreToolUse hook (Claude Code)
 graphify claude uninstall
 graphify codebuddy install         # CODEBUDDY.md + PreToolUse hook (CodeBuddy)
 graphify codebuddy uninstall
-graphify codesquad install         # .codesquad skill + AGENTS.md (project-scoped)
+graphify codesquad install         # ~/.codesquad skill + AGENTS.md (add --project for .codesquad/)
 graphify codesquad uninstall
 graphify codex install             # AGENTS.md + PreToolUse hook in .codex/hooks.json (Codex)
 graphify opencode install          # AGENTS.md + tool.execute.before plugin (OpenCode)
@@ -871,8 +871,8 @@ Built for people and teams whose work lives across hundreds of conversations and
 The project uses [uv](https://docs.astral.sh/uv/) for dev workflow. Install it once, then:
 
 ```bash
-git clone https://github.com/safishamsi/graphify.git
-cd graphify
+git clone https://github.com/GodSealS/graphify_codebuddy.git
+cd graphify_codebuddy
 git checkout v8                        # active development branch
 
 # Create the project venv and install graphify + all extras + the dev group

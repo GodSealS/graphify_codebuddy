@@ -1345,7 +1345,7 @@ def _backend_pkg_hint(pkg: str, extra: str) -> str:
     """
     return (
         f"the '{pkg}' package is required for this backend but is not installed. "
-        f"Install it with:  uv tool install \"graphifyy[{extra}]\" --force  "
+        f"Install it with:  uv tool install \"graphifyy[{extra}] @ git+https://github.com/GodSealS/graphify_codebuddy.git\" --force  "
         f"(uv tool), or  pip install {pkg}  (pip/venv install)."
     )
 
@@ -1883,7 +1883,7 @@ def _call_bedrock(model: str, user_message: str, max_tokens: int = 8192, *, deep
         import botocore.exceptions
     except ImportError as exc:
         raise ImportError(
-            "AWS Bedrock extraction requires boto3. Run: pip install graphifyy[bedrock]"
+            "AWS Bedrock extraction requires boto3. Run: pip install 'graphifyy[bedrock] @ git+https://github.com/GodSealS/graphify_codebuddy.git'"
         ) from exc
 
     region = os.environ.get("AWS_REGION") or os.environ.get("AWS_DEFAULT_REGION") or "us-east-1"

@@ -115,11 +115,11 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 # מומלץ (סביבה מבודדת; אם הפקודה 'graphify' לא נמצאת אחר כך, הריצו: uv tool update-shell):
-uv tool install graphifyy
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 # חלופות:
-pipx install graphifyy
-pip install graphifyy  # עשוי לדרוש הגדרת PATH — ראו הערה בהמשך
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # עשוי לדרוש הגדרת PATH — ראו הערה בהמשך
 ```
 
 <div dir="rtl">
@@ -153,7 +153,7 @@ graphify install --project --platform codex
 
 > **‏`graphify: command not found`?** ‏`uv tool install` / `pipx install` מציבים את פקודת `graphify` בתיקיית הכלים שלהם (`~/.local/bin`). אם המעטפת (shell) לא מוצאת אותה מיד אחרי ההתקנה — נפוץ בהתקנת macOS + zsh טרייה — התיקייה הזו עדיין לא ב-`PATH`: הריצו `uv tool update-shell` (או `pipx ensurepath`) ופתחו טרמינל חדש. עם `pip` רגיל, הוסיפו את `~/.local/bin` (בלינוקס) או `~/Library/Python/3.x/bin` (במק) ל-PATH, או הריצו `python -m graphify`.
 
-> **מריצים עם `uvx` / `uv tool run` בלי להתקין?** ציינו את שם החבילה, לא את שם הפקודה: `uvx --from graphifyy graphify install`. ‏`uvx graphify …` רגיל נכשל (`No solution found … no versions of graphify`) כי `uv tool run` קורא את המילה הראשונה כשם *חבילה*, והחבילה היא `graphifyy` — פקודת `graphify` נמצאת בתוכה.
+> **מריצים עם `uvx` / `uv tool run` בלי להתקין?** ציינו את שם החבילה, לא את שם הפקודה: `uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install`. ‏`uvx graphify …` רגיל נכשל (`No solution found … no versions of graphify`) כי `uv tool run` קורא את המילה הראשונה כשם *חבילה*, והחבילה היא `graphifyy` — פקודת `graphify` נמצאת בתוכה.
 
 > **הימנעו מ-`pip install` במק/Windows** אם אפשר. המיומנות מאתרת את Python בזמן ריצה מתוך `graphify-out/.graphify_python`; אם הוא מצביע על סביבה שונה מזו שבה `pip` התקין את החבילה, תקבלו `ModuleNotFoundError: No module named 'graphify'`. ‏`uv tool install` ו-`pipx install` מבודדים את החבילה בסביבה משלהם ונמנעים מהבעיה לחלוטין.
 
@@ -199,27 +199,27 @@ graphify install --project --platform codex
 
 | תוסף | מה הוא מוסיף | התקנה |
 |---|---|---|
-| `pdf` | חילוץ PDF | `uv tool install "graphifyy[pdf]"` |
-| `office` | תמיכה ב-`.docx` ו-`.xlsx` | `uv tool install "graphifyy[office]"` |
-| `google` | רינדור Google Sheets | `uv tool install "graphifyy[google]"` |
-| `video` | תמלול וידאו/אודיו (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | שרת MCP stdio | `uv tool install "graphifyy[mcp]"` |
+| `pdf` | חילוץ PDF | `uv tool install "graphifyy[pdf] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `office` | תמיכה ב-`.docx` ו-`.xlsx` | `uv tool install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `google` | רינדור Google Sheets | `uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `video` | תמלול וידאו/אודיו (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `mcp` | שרת MCP stdio | `uv tool install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 | `neo4j` | דחיפה ל-Neo4j | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | דחיפה ל-FalkorDB | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | ייצוא גרף ל-SVG | `uv tool install "graphifyy[svg]"` |
-| `leiden` | זיהוי קהילות Leiden ‏(graspologic ב-Python < 3.13; מנגנון native ב-3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | הרצה מקומית עם Ollama | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / ממשקי API תואמי-OpenAI | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API ‏(`--backend claude`, משתמש ב-`ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (משתמש ב-IAM, ללא מפתח API) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service ‏(`--backend azure`, משתמש ב-`AZURE_OPENAI_API_KEY` + ‏`AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | חילוץ סכמות SQL | `uv tool install "graphifyy[sql]"` |
-| `postgres` | אינטרוספקציה של PostgreSQL חי (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | חילוץ AST של BYOND DreamMaker ‏`.dm`/`.dme` (עשוי לדרוש קומפיילר C + ‏`python3-dev` אם אין wheel מתאים לפלטפורמה) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | חילוץ AST של Terraform / HCL ‏`.tf`/`.tfvars`/`.hcl` | `uv tool install "graphifyy[terraform]"` |
-| `chinese` | פילוח שאילתות בסינית (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | כל מה שלמעלה | `uv tool install "graphifyy[all]"` |
+| `falkordb` | דחיפה ל-FalkorDB | `uv tool install "graphifyy[falkordb] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `svg` | ייצוא גרף ל-SVG | `uv tool install "graphifyy[svg] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `leiden` | זיהוי קהילות Leiden ‏(graspologic ב-Python < 3.13; מנגנון native ב-3.13+) | `uv tool install "graphifyy[leiden] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `ollama` | הרצה מקומית עם Ollama | `uv tool install "graphifyy[ollama] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `openai` | OpenAI / ממשקי API תואמי-OpenAI | `uv tool install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `anthropic` | Anthropic Claude API ‏(`--backend claude`, משתמש ב-`ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `bedrock` | AWS Bedrock (משתמש ב-IAM, ללא מפתח API) | `uv tool install "graphifyy[bedrock] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `azure` | Azure OpenAI Service ‏(`--backend azure`, משתמש ב-`AZURE_OPENAI_API_KEY` + ‏`AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `sql` | חילוץ סכמות SQL | `uv tool install "graphifyy[sql] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `postgres` | אינטרוספקציה של PostgreSQL חי (`--postgres DSN`) | `uv tool install "graphifyy[postgres] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `dm` | חילוץ AST של BYOND DreamMaker ‏`.dm`/`.dme` (עשוי לדרוש קומפיילר C + ‏`python3-dev` אם אין wheel מתאים לפלטפורמה) | `uv tool install "graphifyy[dm] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `terraform` | חילוץ AST של Terraform / HCL ‏`.tf`/`.tfvars`/`.hcl` | `uv tool install "graphifyy[terraform] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `chinese` | פילוח שאילתות בסינית (jieba) | `uv tool install "graphifyy[chinese] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
+| `all` | כל מה שלמעלה | `uv tool install "graphifyy[all] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` |
 
 ---
 
@@ -280,18 +280,18 @@ graphify install --project --platform codex
 
 | סוג | סיומות |
 |------|-----------|
-| קוד (36 דקדוקי tree-sitter) | `.py .ts .js .jsx .tsx .mjs .go .rs .java .c .cpp .h .hpp .cu .cuh .metal .rb .cs .kt .scala .php .swift .lua .luau .zig .ps1 .psm1 .ex .exs .m .mm .jl .vue .svelte .astro .groovy .gradle .dart .v .sv .svh .sql .f .f90 .f95 .f03 .f08 .pas .pp .dpr .dpk .lpr .inc .dfm .lfm .lpk .sh .bash .json .dm .dme .dmi .dmm .dmf .sln .slnx .csproj .fsproj .vbproj .xaml .razor .cshtml` ‏(`.dm`/`.dme` דורש `uv tool install graphifyy[dm]`; ‏CUDA ‏`.cu`/`.cuh` ו-Metal ‏`.metal` משתמשים בדקדוק C++) |
+| קוד (36 דקדוקי tree-sitter) | `.py .ts .js .jsx .tsx .mjs .go .rs .java .c .cpp .h .hpp .cu .cuh .metal .rb .cs .kt .scala .php .swift .lua .luau .zig .ps1 .psm1 .ex .exs .m .mm .jl .vue .svelte .astro .groovy .gradle .dart .v .sv .svh .sql .f .f90 .f95 .f03 .f08 .pas .pp .dpr .dpk .lpr .inc .dfm .lfm .lpk .sh .bash .json .dm .dme .dmi .dmm .dmf .sln .slnx .csproj .fsproj .vbproj .xaml .razor .cshtml` ‏(`.dm`/`.dme` דורש `uv tool install "graphifyy[dm] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`; ‏CUDA ‏`.cu`/`.cuh` ו-Metal ‏`.metal` משתמשים בדקדוק C++) |
 | Salesforce Apex | `.cls .trigger` (מבוסס regex; מחלקות, ממשקים, enums, מתודות, טריגרים, קשתות SOQL/DML) |
-| Terraform / HCL | `.tf .tfvars .hcl` (דורש `uv tool install graphifyy[terraform]`) |
+| Terraform / HCL | `.tf .tfvars .hcl` (דורש `uv tool install "graphifyy[terraform] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 | תצורות MCP | `.mcp.json` ‏`mcp.json` ‏`mcp_servers.json` ‏`claude_desktop_config.json` — מחלץ צומתי שרתים, הפניות לחבילות, דרישות משתני סביבה |
 | מניפסטים של חבילות | `apm.yml` ‏`pyproject.toml` ‏`go.mod` ‏`pom.xml` — צומת חבילה קנוני אחד לכל חבילה (לפי שם) בתוספת קשתות `depends_on`, כך שחבילה שמופנית מכמה מניפסטים היא מוקד (hub) יחיד |
 | מסמכים | `.md .mdx .qmd .html .txt .rst .yaml .yml` (קישורי markdown ‏`[text](./other.md)` ו-`[[wikilinks]]` הופכים לקשתות `references` בין מסמכים) |
-| Office | `.docx .xlsx` (דורש `uv tool install graphifyy[office]`) |
-| Google Workspace | `.gdoc .gsheet .gslides` ‏(opt-in; דורש אימות `gws` ו-`--google-workspace`; ‏Sheets דורש `uv tool install graphifyy[google]`) |
+| Office | `.docx .xlsx` (דורש `uv tool install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| Google Workspace | `.gdoc .gsheet .gslides` ‏(opt-in; דורש אימות `gws` ו-`--google-workspace`; ‏Sheets דורש `uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 | PDF | `.pdf` |
 | תמונות | `.png .jpg .webp .gif` |
-| וידאו / אודיו | `.mp4 .mov .mp3 .wav` ועוד (דורש `uv tool install graphifyy[video]`) |
-| YouTube / כתובות URL | כל כתובת וידאו (דורש `uv tool install graphifyy[video]`) |
+| וידאו / אודיו | `.mp4 .mov .mp3 .wav` ועוד (דורש `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
+| YouTube / כתובות URL | כל כתובת וידאו (דורש `uv tool install "graphifyy[video] @ git+https://github.com/GodSealS/graphify_codebuddy.git"`) |
 
 קוד מחולץ מקומית ללא קריאות API ‏(AST באמצעות tree-sitter). כל השאר עובר דרך ה-API של מודל עוזר ה-AI שלכם.
 
@@ -300,7 +300,7 @@ graphify install --project --platform codex
 </div>
 
 ```bash
-uv tool install "graphifyy[google]"  # נדרש לרינדור טבלאות Google Sheets
+uv tool install "graphifyy[google] @ git+https://github.com/GodSealS/graphify_codebuddy.git"  # נדרש לרינדור טבלאות Google Sheets
 gws auth login -s drive
 graphify extract ./docs --google-workspace
 ```
@@ -453,7 +453,7 @@ docker run -p 8080:8080 -v "$(pwd)/graphify-out:/data" graphify \
 </div>
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp]"
+python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 ```
 
 <div dir="rtl">
@@ -515,12 +515,12 @@ python3 -m venv .venv && .venv/bin/pip install "graphifyy[mcp]"
 
 **‏`graphify: command not found` אחרי ההתקנה**
 ה-CLI מותקן אבל תיקיית ה-bin שלו אינה ב-`PATH` של המעטפת. בחרו את התיקון לפי אופן ההתקנה:
-- **uv** ‏(`uv tool install graphifyy`): הפקודה מגיעה לתיקיית הכלים של uv ‏(`~/.local/bin`), שהתקנת macOS/zsh טרייה לרוב לא כוללת ב-`PATH`. הריצו `uv tool update-shell` ופתחו טרמינל חדש. (מצאו את התיקייה עם `uv tool dir --bin`.)
-- **pipx** ‏(`pipx install graphifyy`): הריצו `pipx ensurepath` ופתחו טרמינל חדש.
-- **pip** ‏(`pip install graphifyy`): ‏pip מתקין סקריפטים לתיקיית bin של המשתמש שאולי אינה ב-`PATH` — הוסיפו את `~/Library/Python/3.x/bin` ‏(macOS) או `~/.local/bin` ‏(לינוקס) ל-`PATH` ב-`~/.zshrc`/`~/.bashrc`, או פשוט הריצו `python -m graphify`.
+- **uv** ‏(`uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): הפקודה מגיעה לתיקיית הכלים של uv ‏(`~/.local/bin`), שהתקנת macOS/zsh טרייה לרוב לא כוללת ב-`PATH`. הריצו `uv tool update-shell` ופתחו טרמינל חדש. (מצאו את התיקייה עם `uv tool dir --bin`.)
+- **pipx** ‏(`pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): הריצו `pipx ensurepath` ופתחו טרמינל חדש.
+- **pip** ‏(`pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`): ‏pip מתקין סקריפטים לתיקיית bin של המשתמש שאולי אינה ב-`PATH` — הוסיפו את `~/Library/Python/3.x/bin` ‏(macOS) או `~/.local/bin` ‏(לינוקס) ל-`PATH` ב-`~/.zshrc`/`~/.bashrc`, או פשוט הריצו `python -m graphify`.
 
 **‏`uvx graphify …` או `uv tool run graphify …` לא מצליחים לפתור את `graphify`**
-חבילת ה-PyPI היא `graphifyy`; ‏`graphify` הוא רק הפקודה שהיא מספקת. ‏`uv tool run` מתייחס למילה הראשונה כשם *חבילה*, מחפש חבילה בשם `graphify` ומדווח `No solution found … no versions of graphify`. ציינו את החבילה במפורש: `uvx --from graphifyy graphify install` (זהה ל-`uv tool run --from graphifyy graphify install`). או התקינו פעם אחת עם `uv tool install graphifyy` וקראו ל-`graphify` ישירות.
+חבילת ה-PyPI היא `graphifyy`; ‏`graphify` הוא רק הפקודה שהיא מספקת. ‏`uv tool run` מתייחס למילה הראשונה כשם *חבילה*, מחפש חבילה בשם `graphify` ומדווח `No solution found … no versions of graphify`. ציינו את החבילה במפורש: `uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install` (זהה ל-`uv tool run --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install`). או התקינו פעם אחת עם `uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` וקראו ל-`graphify` ישירות.
 
 **‏`python -m graphify` עובד אבל פקודת `graphify` לא**
 ה-`PATH` של המעטפת לא כולל את תיקיית ה-bin שאליה הותקנה הפקודה. העדיפו `uv tool install` / ‏`pipx install` על פני `pip` רגיל, ואז הריצו `uv tool update-shell` / ‏`pipx ensurepath` ופתחו טרמינל חדש (ראו הערות ההתקנה לעיל).
@@ -795,8 +795,8 @@ graphify label ./my-project --backend=openai --model gpt-4o   # כפיית backe
 </div>
 
 ```bash
-git clone https://github.com/safishamsi/graphify.git
-cd graphify
+git clone https://github.com/GodSealS/graphify_codebuddy.git
+cd graphify_codebuddy
 git checkout v8                        # ‏branch הפיתוח הפעיל
 
 # יצירת venv לפרויקט והתקנת graphify + כל התוספים + קבוצת dev

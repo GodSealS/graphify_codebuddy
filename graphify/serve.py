@@ -1804,7 +1804,7 @@ def _build_server(graph_path: str):
         from mcp.server import Server
         from mcp import types
     except ImportError as e:
-        raise ImportError('mcp not installed. Run: pip install "graphifyy[mcp]"') from e
+        raise ImportError('mcp not installed. Run: pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"') from e
     try:
         from mcp.types import AnyUrl
     except ImportError:
@@ -2406,7 +2406,7 @@ def serve(graph_path: str | None = None) -> None:
     try:
         from mcp.server.stdio import stdio_server
     except ImportError as e:
-        raise ImportError('mcp not installed. Run: pip install "graphifyy[mcp]"') from e
+        raise ImportError('mcp not installed. Run: pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"') from e
     import asyncio
 
     server = _build_server(graph_path)
@@ -2509,7 +2509,7 @@ def _build_http_app(
     except ImportError as e:
         raise ImportError(
             'HTTP transport needs the mcp extra (mcp + starlette + uvicorn). '
-            'Run: pip install "graphifyy[mcp]"'
+            'Run: pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"'
         ) from e
 
     # A blank key (e.g. --api-key "" or an empty GRAPHIFY_API_KEY) must not be
@@ -2586,7 +2586,7 @@ def serve_http(
     except ImportError as e:
         raise ImportError(
             'HTTP transport needs the mcp extra (mcp + starlette + uvicorn). '
-            'Run: pip install "graphifyy[mcp]"'
+            'Run: pip install "graphifyy[mcp] @ git+https://github.com/GodSealS/graphify_codebuddy.git"'
         ) from e
 
     api_key = (api_key or "").strip() or None

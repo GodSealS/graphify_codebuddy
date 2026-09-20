@@ -49,7 +49,7 @@ raw/
 Install and set up the skill for your platform:
 
 ```bash
-pip install graphifyy
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 
 graphify install                        # Claude Code
 graphify install --platform codex       # Codex

@@ -42,14 +42,14 @@ Ang bawat relasyon ay may label na `EXTRACTED`, `INFERRED` (may confidence score
 **Mga Kinakailangan:** Python 3.10+ at isa sa mga sumusunod: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) at iba pa.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # o gamit ang pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # o pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Opisyal na package:** Ang PyPI package ay pinangalanang `graphifyy`. Ang tanging opisyal na repository ay [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Opisyal na package:** Ang PyPI package ay pinangalanang `graphifyy`. Ang tanging opisyal na repository ay [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Paggamit
 

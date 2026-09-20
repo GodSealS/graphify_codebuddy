@@ -36,7 +36,7 @@ graphify 分两轮执行。第一轮是确定性的 AST 提取，对代码文件
 **要求：** Python 3.10+，并且使用以下平台之一：[Claude Code](https://claude.ai/code)、[CodeBuddy](https://codebuddy.ai)、[Codex](https://openai.com/codex)、[OpenCode](https://opencode.ai)、[OpenClaw](https://openclaw.ai)、[Factory Droid](https://factory.ai) 或 [Trae](https://trae.ai)
 
 ```bash
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
 > PyPI 包当前暂时叫 `graphifyy`，因为 `graphify` 这个名字还在回收中。CLI 命令和 skill 命令仍然都是 `graphify`。
@@ -53,7 +53,7 @@ pip install graphifyy && graphify install
 | Factory Droid | `graphify install --platform droid` |
 | Trae | `graphify install --platform trae` |
 | Trae CN | `graphify install --platform trae-cn` |
-| CodeSquad | `graphify install --platform codesquad`（始终安装到项目 `.codesquad/`） |
+| CodeSquad | `graphify install --platform codesquad`（默认 `~/.codesquad/`，加 `--project` 则项目 `.codesquad/`） |
 
 Codex 用户还需要在 `~/.codex/config.toml` 的 `[features]` 下打开 `multi_agent = true`，这样才能并行提取。CodeBuddy 使用与 Claude Code 相同的 Agent 工具和 PreToolUse hook 机制。OpenClaw 目前的并行 agent 支持还比较早期，所以使用顺序提取。Trae 使用 Agent 工具进行并行子代理调度，**不支持** PreToolUse hook，因此 AGENTS.md 是其常驻机制。
 
@@ -77,7 +77,7 @@ Codex 用户还需要在 `~/.codex/config.toml` 的 `[features]` 下打开 `mult
 | Factory Droid | `graphify droid install` |
 | Trae | `graphify trae install` |
 | Trae CN | `graphify trae-cn install` |
-| CodeSquad | `graphify codesquad install`（始终安装到项目 `.codesquad/`） |
+| CodeSquad | `graphify codesquad install`（默认 `~/.codesquad/`，加 `--project` 则项目 `.codesquad/`） |
 
 **Claude Code** 会做两件事：
 1. 在 `CLAUDE.md` 中写入一段规则，告诉 Claude 在回答架构问题前先读 `graphify-out/GRAPH_REPORT.md`

@@ -42,14 +42,14 @@ Minden kapcsolat `EXTRACTED`, `INFERRED` (megbízhatósági pontszámmal) vagy `
 **Követelmények:** Python 3.10+ és az alábbiak egyike: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) és mások.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # vagy pipx-szel
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # vagy pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Hivatalos csomag:** A PyPI-csomag neve `graphifyy`. Az egyetlen hivatalos tároló a [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Hivatalos csomag:** A PyPI-csomag neve `graphifyy`. Az egyetlen hivatalos tároló a [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Használat
 

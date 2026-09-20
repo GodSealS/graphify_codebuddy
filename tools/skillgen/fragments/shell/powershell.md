@@ -1,5 +1,7 @@
 ```powershell
 # Detect Python with graphify — uv/pipx-aware (fixes #831)
+# $GraphifyPkg pins the install source to the GodSealS/graphify_codebuddy fork (a bare `graphifyy` pulls the upstream PyPI release instead).
+$GraphifyPkg = "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 New-Item -ItemType Directory -Force -Path graphify-out | Out-Null
 $GRAPHIFY_PYTHON = $null
 
@@ -43,9 +45,9 @@ $GRAPHIFY_PYTHON = Find-GraphifyPython
 # Not found — install then re-detect
 if (-not $GRAPHIFY_PYTHON) {
     if (Get-Command uv -ErrorAction SilentlyContinue) {
-        uv tool install --upgrade graphifyy -q 2>&1 | Select-Object -Last 3
+        uv tool install --upgrade $GraphifyPkg -q 2>&1 | Select-Object -Last 3
     } else {
-        pip install graphifyy -q 2>&1 | Select-Object -Last 3
+        pip install $GraphifyPkg -q 2>&1 | Select-Object -Last 3
     }
     $GRAPHIFY_PYTHON = Find-GraphifyPython
 }

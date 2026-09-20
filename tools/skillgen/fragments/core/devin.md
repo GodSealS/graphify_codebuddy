@@ -71,11 +71,13 @@ Follow these steps in order. Do not skip steps.
 
 ```bash
 # Detect the correct Python interpreter (handles uv tool, pipx, venv, system installs)
+# GRAPHIFY_PKG pins the install source to the GodSealS/graphify_codebuddy fork (a bare `graphifyy` pulls the upstream PyPI release instead).
+GRAPHIFY_PKG="graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 PYTHON=""
 GRAPHIFY_BIN=$(which graphify 2>/dev/null)
 # 1. uv tool installs — most reliable on modern Mac/Linux
 if [ -z "$PYTHON" ] && command -v uv >/dev/null 2>&1; then
-    _UV_PY=$(uv tool run --from graphifyy python -c "import sys; print(sys.executable)" 2>/dev/null)
+    _UV_PY=$(uv tool run --from "$GRAPHIFY_PKG" python -c "import sys; print(sys.executable)" 2>/dev/null)
     if [ -n "$_UV_PY" ]; then PYTHON="$_UV_PY"; fi
 fi
 # 2. Read shebang from graphify binary (pipx and direct pip installs)
@@ -90,12 +92,12 @@ fi
 if [ -z "$PYTHON" ]; then PYTHON="python3"; fi
 if ! "$PYTHON" -c "import graphify" 2>/dev/null; then
     if command -v uv >/dev/null 2>&1; then
-        uv tool install --upgrade graphifyy -q 2>&1 | tail -3
-        _UV_PY=$(uv tool run --from graphifyy python -c "import sys; print(sys.executable)" 2>/dev/null)
+        uv tool install --upgrade "$GRAPHIFY_PKG" -q 2>&1 | tail -3
+        _UV_PY=$(uv tool run --from "$GRAPHIFY_PKG" python -c "import sys; print(sys.executable)" 2>/dev/null)
         if [ -n "$_UV_PY" ]; then PYTHON="$_UV_PY"; fi
     else
-        "$PYTHON" -m pip install graphifyy -q 2>/dev/null \
-          || "$PYTHON" -m pip install graphifyy -q --break-system-packages 2>&1 | tail -3
+        "$PYTHON" -m pip install "$GRAPHIFY_PKG" -q 2>/dev/null \
+          || "$PYTHON" -m pip install "$GRAPHIFY_PKG" -q --break-system-packages 2>&1 | tail -3
     fi
 fi
 # Write interpreter path for all subsequent steps (persists across invocations)

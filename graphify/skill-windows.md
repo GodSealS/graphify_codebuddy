@@ -66,6 +66,8 @@ Only when the path is one or more `https://github.com/...` URLs, or several loca
 
 ```powershell
 # Detect Python with graphify — uv/pipx-aware (fixes #831)
+# $GraphifyPkg pins the install source to the GodSealS/graphify_codebuddy fork (a bare `graphifyy` pulls the upstream PyPI release instead).
+$GraphifyPkg = "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 New-Item -ItemType Directory -Force -Path graphify-out | Out-Null
 $GRAPHIFY_PYTHON = $null
 
@@ -109,9 +111,9 @@ $GRAPHIFY_PYTHON = Find-GraphifyPython
 # Not found — install then re-detect
 if (-not $GRAPHIFY_PYTHON) {
     if (Get-Command uv -ErrorAction SilentlyContinue) {
-        uv tool install --upgrade graphifyy -q 2>&1 | Select-Object -Last 3
+        uv tool install --upgrade $GraphifyPkg -q 2>&1 | Select-Object -Last 3
     } else {
-        pip install graphifyy -q 2>&1 | Select-Object -Last 3
+        pip install $GraphifyPkg -q 2>&1 | Select-Object -Last 3
     }
     $GRAPHIFY_PYTHON = Find-GraphifyPython
 }
@@ -184,7 +186,7 @@ This step has two parts: **structural extraction** (deterministic, free) and **s
 > **graphify needs no API key. Never ask the user for one, and never block on one.** Code is extracted structurally (AST) with no LLM and no key at all — a code-only corpus (the common `/graphify .` on a repo) skips semantic extraction entirely, so it needs nothing here: go straight to Part A and skip Part B. Semantic extraction (only for docs, papers, and images) uses Gemini **only if** `GEMINI_API_KEY`/`GOOGLE_API_KEY` is already set; otherwise the host agent itself is the LLM. graphify does **not** read `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or any other provider key. If you catch yourself about to prompt for, wait on, or stop because of a missing API key, that is a misread of this skill — proceed without one.
 
 **Before semantic extraction:** check whether `GEMINI_API_KEY` or `GOOGLE_API_KEY` is set. If neither is set, print this one-liner to the user:
-> Tip: set `GEMINI_API_KEY` or `GOOGLE_API_KEY` to use Gemini for semantic extraction (`pip install 'graphifyy[gemini]'`).
+> Tip: set `GEMINI_API_KEY` or `GOOGLE_API_KEY` to use Gemini for semantic extraction (`pip install 'graphifyy[gemini] @ git+https://github.com/GodSealS/graphify_codebuddy.git'`).
 
 Print it once, then continue — do not wait for the user to supply a key. If `GEMINI_API_KEY` or `GOOGLE_API_KEY` IS set, use `graphify.llm.extract_corpus_parallel(files, backend="gemini")` for semantic extraction instead of dispatching subagents. The default Gemini model is `gemini-3-flash-preview`; set `GRAPHIFY_GEMINI_MODEL` or pass `--model` in headless CLI flows to override it.
 
@@ -739,7 +741,7 @@ When the user asks to install the post-commit auto-rebuild hook or wire graphify
 
 If vertical scrolling breaks in PowerShell after running graphify, this is caused by ANSI escape sequences from the `graspologic` library. Graphify v0.3.10+ suppresses this output, but if you still see the issue:
 
-1. **Upgrade graphify**: `pip install --upgrade graphifyy`
+1. **Upgrade graphify**: `pip install --upgrade "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`
 2. **Use Windows Terminal** instead of the legacy PowerShell console — Windows Terminal handles ANSI codes correctly
 3. **Reset your terminal**: close and reopen PowerShell
 4. **Skip Leiden**: uninstall its backend (`pip uninstall graspologic` on Python < 3.13, `pip uninstall graspologic-native` on Python 3.13+) and graphify will fall back to NetworkX's built-in Louvain algorithm, which produces no ANSI output

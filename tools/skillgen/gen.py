@@ -1101,6 +1101,27 @@ def _is_uv_from_interpreter_fix_line(line: str) -> bool:
     return "uv tool run" in line and "graphifyy python" in line
 
 
+def _is_fork_install_source_line(line: str) -> bool:
+    """Whether a line is part of the fork install-source pin.
+
+    Step 1 used to resolve the distribution by bare name — ``uv tool install
+    --upgrade graphifyy`` / ``pip install graphifyy`` — which fetches the upstream
+    PyPI release and silently replaces this fork with it. The block now pins the
+    requirement to ``graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git``
+    through the ``GRAPHIFY_PKG`` / ``$GraphifyPkg`` variable, and the probe plus
+    both install paths read that variable. Both the old (removed) and new (added)
+    forms match here.
+    """
+    if "GodSealS/graphify_codebuddy" in line or "GRAPHIFY_PKG" in line or "GraphifyPkg" in line:
+        return True
+    stripped = line.strip()
+    if stripped.startswith("uv tool install --upgrade graphifyy"):
+        return True
+    return stripped.startswith(
+        ('"$PYTHON" -m pip install graphifyy', '|| "$PYTHON" -m pip install graphifyy')
+    )
+
+
 def _is_semantic_cache_scope_fix_line(line: str) -> bool:
     """Whether a line scopes semantic cache writes to dispatched files (#1757).
 
@@ -1163,6 +1184,7 @@ _SANCTIONED_MONOLITH_DIFFS = (
     _is_uv_from_interpreter_fix_line,
     _is_semantic_cache_scope_fix_line,
     _is_community_label_export_fix_line,
+    _is_fork_install_source_line,
 )
 
 

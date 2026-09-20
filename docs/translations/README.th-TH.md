@@ -42,14 +42,14 @@ graphify ทำงานใน 3 รอบ ก่อนอื่น AST pass แ
 **ข้อกำหนด:** Python 3.10+ และหนึ่งใน: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) และอื่นๆ
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # หรือกับ pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # หรือ pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **แพ็กเกจอย่างเป็นทางการ:** แพ็กเกจ PyPI ชื่อ `graphifyy` repository อย่างเป็นทางการเดียวคือ [safishamsi/graphify](https://github.com/safishamsi/graphify)
+> **แพ็กเกจอย่างเป็นทางการ:** แพ็กเกจ PyPI ชื่อ `graphifyy` repository อย่างเป็นทางการเดียวคือ [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy)
 
 ## การใช้งาน
 

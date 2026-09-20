@@ -42,14 +42,14 @@ graphify-out/
 **Απαιτήσεις:** Python 3.10+ και ένα από: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) και άλλα.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # ή με pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # ή pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Επίσημο πακέτο:** Το πακέτο PyPI ονομάζεται `graphifyy`. Το μοναδικό επίσημο αποθετήριο είναι το [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Επίσημο πακέτο:** Το πακέτο PyPI ονομάζεται `graphifyy`. Το μοναδικό επίσημο αποθετήριο είναι το [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Χρήση
 

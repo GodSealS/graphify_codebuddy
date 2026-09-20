@@ -218,7 +218,7 @@ def _check_skill_version(skill_dst: Path, platform_names: "list[str] | None" = N
             print(
                 f"  warning: skill is from graphify {installed}, but the package is "
                 f"{__version__} (older). Upgrade the package "
-                f"(e.g. 'uv tool upgrade graphifyy' or 'pip install -U graphifyy'); "
+                f"(e.g. 'uv tool upgrade graphifyy' or 'pip install -U \"graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git\"'); "
                 f"running 'graphify install' would downgrade the skill.",
                 file=sys.stderr,
             )
@@ -733,8 +733,8 @@ def _run_cli() -> None:
         print("  pi uninstall            remove skill from ~/.pi/agent/skills/graphify/")
         print("  devin install           write skill to ~/.config/devin/skills/graphify/ (Devin CLI)")
         print("  devin uninstall         remove skill from ~/.config/devin/skills/graphify/")
-        print("  codesquad install       write skill + AGENTS.md to .codesquad/ (CodeSquad, project-scoped)")
-        print("  codesquad uninstall     remove skill + AGENTS.md from .codesquad/")
+        print("  codesquad install       write skill + AGENTS.md to ~/.codesquad/ (CodeSquad; --project for .codesquad/)")
+        print("  codesquad uninstall     remove skill + AGENTS.md from ~/.codesquad/ (--project for .codesquad/)")
         print()
         return
 

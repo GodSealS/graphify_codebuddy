@@ -42,14 +42,14 @@ Elke relatie is gelabeld als `EXTRACTED`, `INFERRED` (met betrouwbaarheidsscore)
 **Vereisten:** Python 3.10+ en één van: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [Cursor](https://cursor.com), [Aider](https://aider.chat) en andere.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # of met pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # of pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Officieel pakket:** Het PyPI-pakket heet `graphifyy`. De enige officiële repository is [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Officieel pakket:** Het PyPI-pakket heet `graphifyy`. De enige officiële repository is [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Gebruik
 

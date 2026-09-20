@@ -58,14 +58,14 @@ Cada relação é marcada como `EXTRACTED` (encontrada diretamente na fonte), `I
 
 ```bash
 # Recomendado — funciona no Mac e Linux sem configurar o PATH
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # ou com pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # ou pip simples
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Pacote oficial:** O pacote PyPI chama-se `graphifyy` (instalar com `pip install graphifyy`). Outros pacotes chamados `graphify*` no PyPI não são afiliados a este projeto. O único repositório oficial é [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Pacote oficial:** O pacote PyPI chama-se `graphifyy` (instalar com `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`). Outros pacotes chamados `graphify*` no PyPI não são afiliados a este projeto. O único repositório oficial é [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ### Suporte a plataformas
 

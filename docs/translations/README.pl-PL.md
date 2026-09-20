@@ -42,14 +42,14 @@ Każda relacja jest oznaczona `EXTRACTED`, `INFERRED` (z wynikiem pewności) lub
 **Wymagania:** Python 3.10+ i jedno z: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) i inne.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # lub z pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # lub pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Oficjalny pakiet:** Pakiet PyPI nazywa się `graphifyy`. Jedyne oficjalne repozytorium to [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Oficjalny pakiet:** Pakiet PyPI nazywa się `graphifyy`. Jedyne oficjalne repozytorium to [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Użycie
 

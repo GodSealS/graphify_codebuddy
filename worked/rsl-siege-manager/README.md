@@ -20,10 +20,10 @@ git checkout 6085fd66
 ### 2. Install the CLI
 
 ```powershell
-uv tool install graphifyy
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
 ```
 
-> The PyPI package is `graphifyy` (double-y). The CLI command is `graphify`.
+> The distribution is `graphifyy` (double-y), installed from this fork. The CLI command is `graphify`.
 
 Verify it's on PATH:
 
@@ -83,6 +83,6 @@ rsl-siege-manager is structurally interesting for graphify evaluation because:
 
 ## Reference
 
-- graphify repo: https://github.com/safishamsi/graphify
+- graphify repo: https://github.com/GodSealS/graphify_codebuddy
 - graphify PyPI: https://pypi.org/project/graphifyy/
 - rsl-siege-manager: https://github.com/glitchwerks/rsl-siege-manager

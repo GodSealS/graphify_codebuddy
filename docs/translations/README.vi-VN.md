@@ -42,14 +42,14 @@ Mỗi mối quan hệ được gắn nhãn `EXTRACTED`, `INFERRED` (với điể
 **Yêu cầu:** Python 3.10+ và một trong: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) và các công cụ khác.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # hoặc với pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # hoặc pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Gói chính thức:** Gói PyPI có tên là `graphifyy`. Kho lưu trữ chính thức duy nhất là [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Gói chính thức:** Gói PyPI có tên là `graphifyy`. Kho lưu trữ chính thức duy nhất là [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Sử dụng
 

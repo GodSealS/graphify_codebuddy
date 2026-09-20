@@ -58,14 +58,14 @@ graphify तीन चरणों में चलता है। पहले
 
 ```bash
 # अनुशंसित — Mac और Linux पर PATH सेटअप के बिना काम करता है
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # या pipx के साथ
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # या सामान्य pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **आधिकारिक पैकेज:** PyPI पैकेज का नाम `graphifyy` है (`pip install graphifyy` से इंस्टॉल करें)। PyPI पर `graphify*` नाम वाले अन्य पैकेज इस प्रोजेक्ट से संबद्ध नहीं हैं। एकमात्र आधिकारिक रिपॉजिटरी [safishamsi/graphify](https://github.com/safishamsi/graphify) है।
+> **आधिकारिक पैकेज:** PyPI पैकेज का नाम `graphifyy` है (`pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"` से इंस्टॉल करें)। PyPI पर `graphify*` नाम वाले अन्य पैकेज इस प्रोजेक्ट से संबद्ध नहीं हैं। एकमात्र आधिकारिक रिपॉजिटरी [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy) है।
 
 ### प्लेटफॉर्म समर्थन
 

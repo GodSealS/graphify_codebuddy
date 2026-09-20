@@ -42,14 +42,14 @@ Jokainen suhde on merkitty `EXTRACTED`, `INFERRED` (luottamuspisteineen) tai `AM
 **Vaatimukset:** Python 3.10+ ja jokin seuraavista: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) ja muut.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # tai pipx:llä
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # tai pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Virallinen paketti:** PyPI-paketti on nimeltään `graphifyy`. Ainoa virallinen repositorio on [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Virallinen paketti:** PyPI-paketti on nimeltään `graphifyy`. Ainoa virallinen repositorio on [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Käyttö
 

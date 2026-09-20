@@ -45,9 +45,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Graphify-Labs/graphify"
-Repository = "https://github.com/Graphify-Labs/graphify"
-Issues = "https://github.com/Graphify-Labs/graphify/issues"
+# This repository is the CodeBuddy/CodeSquad fork of graphify. Point every
+# metadata link at it so installers and packagers resolve this source rather
+# than the upstream release.
+Homepage = "https://github.com/GodSealS/graphify_codebuddy"
+Repository = "https://github.com/GodSealS/graphify_codebuddy"
+Issues = "https://github.com/GodSealS/graphify_codebuddy/issues"
 
 [project.optional-dependencies]
 # starlette is pulled in transitively by mcp, but graphify/serve.py imports it
@@ -133,8 +136,8 @@ dev = [
 ]
 
 [tool.uv]
-# Install via: uv tool install graphifyy
-# Run without installing: uvx graphifyy install
+# Install via: uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"
+# Run without installing: uvx --from "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" graphify install
 package = true
 
 [tool.setuptools]

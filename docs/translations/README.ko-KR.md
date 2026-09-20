@@ -49,7 +49,7 @@ graphify는 두 번의 패스로 실행됩니다. 첫 번째는 결정론적 AST
 **필수 요구사항:** Python 3.10+ 및 다음 중 하나: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [OpenClaw](https://openclaw.ai), [Factory Droid](https://factory.ai), 또는 [Trae](https://trae.ai)
 
 ```bash
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
 > PyPI 패키지는 `graphify` 이름을 되찾는 동안 임시로 `graphifyy`로 명명되어 있습니다. CLI와 스킬 명령은 여전히 `graphify`입니다.
@@ -216,7 +216,7 @@ graphify query "..." --graph path/to/graph.json
 |------|--------|-----------|
 | 코드 | `.py .ts .js .jsx .tsx .go .rs .java .c .cpp .rb .cs .kt .scala .php .swift .lua .zig .ps1 .ex .exs .m .mm .jl` | tree-sitter AST + 콜 그래프 + docstring/주석 근거 |
 | 문서 | `.md .txt .rst` | Claude를 통한 개념 + 관계 + 설계 근거 |
-| 오피스 | `.docx .xlsx` | 마크다운으로 변환 후 Claude를 통해 추출 (`pip install graphifyy[office]` 필요) |
+| 오피스 | `.docx .xlsx` | 마크다운으로 변환 후 Claude를 통해 추출 (`pip install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` 필요) |
 | 논문 | `.pdf` | 인용 마이닝 + 개념 추출 |
 | 이미지 | `.png .jpg .webp .gif` | Claude Vision - 스크린샷, 다이어그램, 모든 언어 |
 

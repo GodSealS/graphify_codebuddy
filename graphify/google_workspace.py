@@ -208,7 +208,7 @@ def convert_google_workspace_file(
 
     if ext == ".gsheet":
         if xlsx_to_markdown is None:
-            raise RuntimeError("Google Sheets export requires the office extra: pip install graphifyy[office,google]")
+            raise RuntimeError("Google Sheets export requires the office extra: pip install 'graphifyy[office,google] @ git+https://github.com/GodSealS/graphify_codebuddy.git'")
         with tempfile.NamedTemporaryFile("w+b", suffix=".xlsx", delete=False, dir=out_dir) as tmp:
             tmp_path = Path(tmp.name)
         try:

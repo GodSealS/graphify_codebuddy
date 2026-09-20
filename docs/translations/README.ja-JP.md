@@ -49,7 +49,7 @@ graphify は 2 パスで動作します。まず、決定論的な AST パスが
 **必要なもの:** Python 3.10+ および以下のいずれか： [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [OpenClaw](https://openclaw.ai), または [Factory Droid](https://factory.ai)
 
 ```bash
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
 > PyPI パッケージは `graphify` の名前が再取得されるまでの間、一時的に `graphifyy` となっています。CLI とスキルコマンドは依然として `graphify` です。
@@ -176,7 +176,7 @@ graphify query "..." --graph path/to/graph.json
 |------|-----------|------------|
 | コード | `.py .ts .js .go .rs .java .c .cpp .rb .cs .kt .scala .php .swift .lua .zig .ps1 .ex .exs .m .mm` | tree-sitter による AST + コールグラフ + docstring/コメントの根拠 |
 | ドキュメント | `.md .txt .rst` | Claude による概念 + 関係性 + 設計根拠 |
-| Office | `.docx .xlsx` | Markdown に変換した後 Claude で抽出（`pip install graphifyy[office]` が必要） |
+| Office | `.docx .xlsx` | Markdown に変換した後 Claude で抽出（`pip install "graphifyy[office] @ git+https://github.com/GodSealS/graphify_codebuddy.git"` が必要） |
 | 論文 | `.pdf` | 引用マイニング + 概念抽出 |
 | 画像 | `.png .jpg .webp .gif` | Claude Vision - スクリーンショット、図、任意の言語 |
 

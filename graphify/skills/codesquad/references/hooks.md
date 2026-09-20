@@ -20,14 +20,16 @@ If a post-commit hook already exists, graphify appends to it rather than replaci
 
 ## For native CodeSquad integration
 
-Run once per project to make graphify always-on in CodeSquad sessions:
+Run once to make graphify always-on in CodeSquad sessions. Skill and AGENTS.md always share the same scope:
 
 ```bash
-graphify codesquad install
+graphify codesquad install            # user-scope: ~/.codesquad/
+graphify codesquad install --project  # this project: .codesquad/
 ```
 
-This writes the skill to `.codesquad/skills/graphify/` and a `## graphify` section to `.codesquad/AGENTS.md` that instructs CodeSquad to check the graph before answering codebase questions and rebuild it after code changes. No manual `/graphify` needed in future sessions.
+User-scope writes the skill to `~/.codesquad/skills/graphify/` and a `## graphify` section to `~/.codesquad/AGENTS.md`. `--project` writes both under `.codesquad/` instead. The AGENTS.md section instructs CodeSquad to check the graph before answering codebase questions and rebuild it after code changes. No manual `/graphify` needed in future sessions.
 
 ```bash
-graphify codesquad uninstall  # remove the skill and the section
+graphify codesquad uninstall            # remove ~/.codesquad/ skill + AGENTS.md
+graphify codesquad uninstall --project  # remove .codesquad/ skill + AGENTS.md
 ```

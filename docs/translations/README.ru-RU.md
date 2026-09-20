@@ -58,14 +58,14 @@ graphify работает в три прохода. Сначала детерм�
 
 ```bash
 # Рекомендуется — работает на Mac и Linux без настройки PATH
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # или с pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # или обычный pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Официальный пакет:** Пакет PyPI называется `graphifyy` (установить через `pip install graphifyy`). Другие пакеты с именем `graphify*` на PyPI не связаны с этим проектом. Единственный официальный репозиторий — [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Официальный пакет:** Пакет PyPI называется `graphifyy` (установить через `pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git"`). Другие пакеты с именем `graphify*` на PyPI не связаны с этим проектом. Единственный официальный репозиторий — [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ### Поддержка платформ
 

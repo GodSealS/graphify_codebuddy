@@ -76,7 +76,7 @@ def _always_on(basename: str) -> str:
         # only by an install/integration path that actually needs this block.
         raise RuntimeError(
             f"graphify install is incomplete: missing always-on block '{basename}' "
-            f"at {path}. Reinstall graphifyy (e.g. `uv tool install --reinstall graphifyy`)."
+            f"at {path}. Reinstall graphifyy (e.g. `uv tool install --reinstall 'graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git'`)."
         ) from exc
 def _platform_skill_destination(platform_name: str, *, project: bool = False, project_dir: Path | None = None) -> Path:
     """Return the skill destination for a platform and scope."""
@@ -674,9 +674,7 @@ def install(platform: str = "claude", *, project: bool = False, project_dir: Pat
         _cursor_install(Path("."))
         return
     if platform == "codesquad":
-        # Always project-scoped: skill + AGENTS.md both live under
-        # <project>/.codesquad. User-scope (~/.codesquad) is never written.
-        codesquad_install(project_dir or Path("."))
+        codesquad_install(project_dir or Path("."), project=project)
         return
     # On Windows, antigravity needs the PowerShell skill, not the bash one
     if platform == "antigravity" and sys.platform == "win32":
@@ -1112,7 +1110,7 @@ def _antigravity_install(project_dir: Path) -> None:
     print('  "graphify": {')
     print('    "command": "uv",')
     print(
-        '    "args": ["run", "--with", "graphifyy", "--with", "mcp", "-m", "graphify.serve", "${workspace.path}/graphify-out/graph.json"]'
+        '    "args": ["run", "--with", "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git", "--with", "mcp", "-m", "graphify.serve", "${workspace.path}/graphify-out/graph.json"]'
     )
     print("  }")
 def _antigravity_uninstall(project_dir: Path, *, project: bool = False) -> None:
@@ -1677,7 +1675,7 @@ def _project_install(platform_name: str, project_dir: Path | None = None, strict
         skill_dst = _copy_skill_file(platform_name, project=True, project_dir=project_dir)
         _print_project_git_add_hint([_project_scope_root(skill_dst, project_dir)])
     elif platform_name == "codesquad":
-        codesquad_install(project_dir)
+        codesquad_install(project_dir, project=True)
     else:
         install(platform=platform_name, project=True, project_dir=project_dir)
 def _project_uninstall(platform_name: str, project_dir: Path | None = None) -> None:
@@ -1884,7 +1882,7 @@ def uninstall_all(project_dir: Path | None = None, purge: bool = False) -> None:
     # cleanup at the project dir (#2215).
     claude_uninstall(pd, remove_user_skill=True)
     codebuddy_uninstall(pd, remove_user_skill=True)
-    codesquad_uninstall(pd, project=True)
+    codesquad_uninstall(pd, project=True, remove_user_skill=True)
     gemini_uninstall(pd, remove_user_skill=True)
     vscode_uninstall(pd)
     _cursor_uninstall(pd)
@@ -2089,17 +2087,13 @@ def codebuddy_uninstall(project_dir: Path | None = None, *, project: bool = Fals
     _uninstall_codebuddy_hook(project_dir)
 
 
-def codesquad_install(project_dir: Path | None = None) -> None:
-    """Install the graphify skill and AGENTS.md section for CodeSquad.
+def _codesquad_agents_md_path(*, project: bool, project_dir: Path) -> Path:
+    root = project_dir if project else Path.home()
+    return root / ".codesquad" / "AGENTS.md"
 
-    Always project-scoped: both the skill tree and AGENTS.md land under
-    ``<project>/.codesquad``. User-scope (``~/.codesquad``) is never written.
-    """
-    project_dir = project_dir or Path(".")
-    skill_dst = _copy_skill_file("codesquad", project=True, project_dir=project_dir)
-    target = project_dir / ".codesquad" / "AGENTS.md"
+
+def _write_codesquad_agents_md(target: Path) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
-
     if target.exists():
         content = target.read_text(encoding="utf-8")
         new_content = _replace_or_append_section(
@@ -2114,34 +2108,17 @@ def codesquad_install(project_dir: Path | None = None) -> None:
         target.write_text(new_content, encoding="utf-8")
         print(f"graphify section written to {target.resolve()}")
 
-    print()
-    print("CodeSquad will now check the knowledge graph before answering")
-    print("codebase questions and rebuild it after code changes.")
-    _print_project_git_add_hint([
-        _project_scope_root(skill_dst, project_dir),
-        target,
-    ])
 
-
-def codesquad_uninstall(project_dir: Path | None = None, *, project: bool = False) -> None:
-    """Remove the project-scoped CodeSquad skill tree and .codesquad/AGENTS.md.
-
-    Always project-scoped. ``project=True`` (as ``uninstall_all`` / ``uninstall
-    --project`` pass) and a bare call both clear ``<project>/.codesquad`` and
-    never touch ``~/.codesquad``.
-    """
-    project_dir = project_dir or Path(".")
-    _remove_skill_file("codesquad", project=True, project_dir=project_dir)
-    target = project_dir / ".codesquad" / "AGENTS.md"
-
+def _remove_codesquad_agents_md(target: Path, *, user_scope: bool) -> None:
+    label = "~/.codesquad/AGENTS.md" if user_scope else ".codesquad/AGENTS.md"
     if not target.exists():
-        print("No .codesquad/AGENTS.md found in current directory - nothing to do")
+        print(f"No {label} found - nothing to do")
         return
 
     content = target.read_text(encoding="utf-8")
     cleaned = _remove_marker_section(content, _AGENTS_MD_MARKER)
     if cleaned is None:
-        print("graphify section not found in .codesquad/AGENTS.md - nothing to do")
+        print(f"graphify section not found in {label} - nothing to do")
         return
 
     if cleaned:
@@ -2149,7 +2126,66 @@ def codesquad_uninstall(project_dir: Path | None = None, *, project: bool = Fals
         print(f"graphify section removed from {target.resolve()}")
     else:
         target.unlink()
-        print(f".codesquad/AGENTS.md was empty after removal - deleted {target.resolve()}")
+        print(f"{label} was empty after removal - deleted {target.resolve()}")
+
+
+def codesquad_install(project_dir: Path | None = None, *, project: bool = False) -> None:
+    """Install the graphify skill and AGENTS.md section for CodeSquad.
+
+    Default is user-scope: both the skill tree and AGENTS.md land under
+    ``~/.codesquad``. ``project=True`` writes both under ``<project>/.codesquad``.
+    Skill and AGENTS.md always share the same scope.
+    """
+    project_dir = project_dir or Path(".")
+    skill_dst = _copy_skill_file("codesquad", project=project, project_dir=project_dir)
+    target = _codesquad_agents_md_path(project=project, project_dir=project_dir)
+    _write_codesquad_agents_md(target)
+
+    print()
+    print("CodeSquad will now check the knowledge graph before answering")
+    print("codebase questions and rebuild it after code changes.")
+    if project:
+        _print_project_git_add_hint([
+            _project_scope_root(skill_dst, project_dir),
+            target,
+        ])
+    else:
+        print()
+        print("User-scope install:")
+        print(f"  skill     ->  {skill_dst}")
+        print(f"  AGENTS.md ->  {target.resolve()}")
+
+
+def codesquad_uninstall(
+    project_dir: Path | None = None,
+    *,
+    project: bool = False,
+    remove_user_skill: bool | None = None,
+) -> None:
+    """Remove the CodeSquad skill tree and AGENTS.md.
+
+    Scope rules (#2215): a bare call removes the user-global skill and
+    ``~/.codesquad/AGENTS.md``; ``project=True`` (or an explicit ``project_dir``)
+    scopes removal to ``<project>/.codesquad`` and leaves the global tree
+    untouched, unless ``remove_user_skill=True`` opts back into the global
+    delete (as ``uninstall_all`` does).
+    """
+    explicit_dir = project_dir is not None
+    project_dir = project_dir or Path(".")
+    if remove_user_skill is None:
+        remove_user_skill = not project and not explicit_dir
+    if project or (explicit_dir and not remove_user_skill):
+        _remove_skill_file("codesquad", project=True, project_dir=project_dir)
+        _remove_codesquad_agents_md(
+            _codesquad_agents_md_path(project=True, project_dir=project_dir),
+            user_scope=False,
+        )
+    if remove_user_skill:
+        _remove_skill_file("codesquad", project=False)
+        _remove_codesquad_agents_md(
+            _codesquad_agents_md_path(project=False, project_dir=project_dir),
+            user_scope=True,
+        )
 
 
 _CLI_INSTALL_COMMANDS = frozenset({
@@ -2305,9 +2341,9 @@ def dispatch_install_cli(cmd: str) -> bool:
     elif cmd == "codesquad":
         subcmd = sys.argv[2] if len(sys.argv) > 2 else ""
         if subcmd == "install":
-            codesquad_install()
+            codesquad_install(project=("--project" in sys.argv[3:]))
         elif subcmd == "uninstall":
-            codesquad_uninstall()
+            codesquad_uninstall(project=("--project" in sys.argv[3:]))
         else:
             print("Usage: graphify codesquad [install|uninstall]", file=sys.stderr)
             sys.exit(1)

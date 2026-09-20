@@ -42,14 +42,14 @@ Fiecare relație este etichetată `EXTRACTED`, `INFERRED` (cu scor de încredere
 **Cerințe:** Python 3.10+ și unul din: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) și altele.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # sau cu pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # sau pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Pachet oficial:** Pachetul PyPI se numește `graphifyy`. Singurul depozit oficial este [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Pachet oficial:** Pachetul PyPI se numește `graphifyy`. Singurul depozit oficial este [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Utilizare
 

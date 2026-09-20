@@ -42,14 +42,14 @@ Každý vztah je označen `EXTRACTED`, `INFERRED` (se skóre spolehlivosti) nebo
 **Požadavky:** Python 3.10+ a jedno z: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) a další.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # nebo s pipx
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # nebo pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Oficiální balíček:** Balíček PyPI se jmenuje `graphifyy`. Jediné oficiální úložiště je [safishamsi/graphify](https://github.com/safishamsi/graphify).
+> **Oficiální balíček:** Balíček PyPI se jmenuje `graphifyy`. Jediné oficiální úložiště je [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy).
 
 ## Použití
 

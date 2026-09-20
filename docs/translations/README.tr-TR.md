@@ -42,14 +42,14 @@ Her ilişki `EXTRACTED`, `INFERRED` (güven puanıyla) veya `AMBIGUOUS` olarak e
 **Gereksinimler:** Python 3.10+ ve şunlardan biri: [Claude Code](https://claude.ai/code), [Codex](https://openai.com/codex), [OpenCode](https://opencode.ai), [Cursor](https://cursor.com) ve diğerleri.
 
 ```bash
-uv tool install graphifyy && graphify install
+uv tool install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # veya pipx ile
-pipx install graphifyy && graphify install
+pipx install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 # veya pip
-pip install graphifyy && graphify install
+pip install "graphifyy @ git+https://github.com/GodSealS/graphify_codebuddy.git" && graphify install
 ```
 
-> **Resmi paket:** PyPI paketi `graphifyy` olarak adlandırılır. Tek resmi depo [safishamsi/graphify](https://github.com/safishamsi/graphify)'dir.
+> **Resmi paket:** PyPI paketi `graphifyy` olarak adlandırılır. Tek resmi depo [GodSealS/graphify_codebuddy](https://github.com/GodSealS/graphify_codebuddy)'dir.
 
 ## Kullanım
 
